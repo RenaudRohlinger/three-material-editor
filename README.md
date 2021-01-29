@@ -28,6 +28,7 @@ MaterialEditor(scene, renderer, {
   camera: camera, // handle responsize dpr for fullscreen
 });
 ```
+Demo : [codesandbox](https://codesandbox.io/s/three-material-editorvanilla-l55jn)
 
 [`See more - @three-material-editor/vanilla`](https://github.com/RenaudRohlinger/three-material-editor/tree/main/packages/vanilla)
 
@@ -44,8 +45,7 @@ import { MaterialEditor } from '@three-material-editor/react';
   <MaterialEditor />
 </Canvas>;
 ```
-
----
+Demo : [codesandbox](https://codesandbox.io/s/three-material-editorreact-z59h4)
 
 [`See more - @three-material-editor/react`](https://github.com/RenaudRohlinger/three-material-editor/tree/main/packages/react)
 
