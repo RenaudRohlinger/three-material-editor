@@ -1,7 +1,7 @@
 import {
   getShaderLibForMaterial,
   getShaderWithObc,
-} from './getShadersForMaterial';
+} from './shaderToMaterial';
 
 export const addShaderDebugMaterial = (material: any) => {
   let newMaterial = material;

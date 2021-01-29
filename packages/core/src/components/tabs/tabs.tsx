@@ -1,5 +1,5 @@
 import React from 'react';
-import { getTypeForMaterial } from '../../helpers/getShadersForMaterial';
+import { getTypeForMaterial } from '../../helpers/shaderToMaterial';
 import { editorState } from '../../state';
 import { editorContext } from '../../.';
 import styles from './tabs.module.css';

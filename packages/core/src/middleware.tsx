@@ -1,5 +1,5 @@
 import { Scene } from 'three';
-import { addShaderDebugMaterial } from './helpers/materialDebugEditor';
+import { addShaderDebugMaterial } from './helpers/improveMaterial';
 import { editorState, editorContextState } from './state';
 
 const getMUIIndex = (muid: string) => muid === 'muidEditor';

@@ -10,7 +10,7 @@ import * as shaderLanguage from './cshader';
 import { EditorTabs } from './components/tabs/tabs';
 import { Menu } from './components/menu/menu';
 import { FullScreen } from './fullscreen';
-import { getTypeForMaterial } from './helpers/getShadersForMaterial';
+import { getTypeForMaterial } from './helpers/shaderToMaterial';
 import Monokai from './helpers/themes/Monokai.json';
 
 // const epoch = Date.now();

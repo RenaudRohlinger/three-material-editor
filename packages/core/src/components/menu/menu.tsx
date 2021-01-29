@@ -1,6 +1,6 @@
 import React, { useState, VFC } from 'react';
 import { editorContext } from '../../.';
-import { getTypeForMaterial } from '../../helpers/getShadersForMaterial';
+import { getTypeForMaterial } from '../../helpers/shaderToMaterial';
 import { editorState } from '../../state';
 import { useProxy } from 'valtio';
 import { IoEyeOutline } from 'react-icons/io5';
@@ -320,7 +320,6 @@ export const Menu = () => {
       if (typeof window !== 'undefined') {
         if (window.innerWidth - editorWidth < 200) { editorWidth = window.innerWidth - menuSize}
         if (editorHeight < 40) { editorHeight = 0}
-        console.log(editorHeight)
         editorContext.dom.current.style.setProperty(
           '--editor-width', editorWidth + 'px'
         );
