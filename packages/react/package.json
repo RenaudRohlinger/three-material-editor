@@ -1,0 +1,70 @@
+{
+  "name": "@three-material-editor/react",
+  "version": "0.0.7",
+  "description": "Official React library for @three-material-editor",
+  "author": "Renaud ROHLINGER",
+  "license": "MIT",
+  "keywords": [
+    "three",
+    "editor",
+    "react",
+    "glsl",
+    "material",
+    "shader"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RenaudRohlinger/three-material-editor.git",
+    "directory": "packages/react"
+  },
+  "scripts": {
+    "start": "tsdx watch --tsconfig tsconfig.build.json --verbose --noClean",
+    "build": "NODE_ENV=production tsdx build --tsconfig tsconfig.build.json",
+    "lint": "tsdx lint",
+    "prepublish": "npm run build",
+    "size": "size-limit",
+    "analyze": "size-limit --why"
+  },
+  "size-limit": [
+    {
+      "path": "dist/react.cjs.production.min.js",
+      "limit": "200 KB"
+    },
+    {
+      "path": "dist/react.esm.js",
+      "limit": "200 KB"
+    }
+  ],
+  "typings": "dist/index.d.ts",
+  "main": "dist/index.js",
+  "files": [
+    "README.md",
+    "dist"
+  ],
+  "peerDependencies": {
+    "react": ">=16",
+    "react-dom": ">=16",
+    "react-three-fiber": "*",
+    "three": "*"
+  },
+  "dependencies": {
+    "@three-material-editor/core": "^0.0.7"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.12.10",
+    "@babel/preset-env": "^7.12.11",
+    "@babel/preset-flow": "^7.12.1",
+    "@babel/preset-react": "^7.12.10",
+    "@size-limit/preset-small-lib": "^4.9.1",
+    "postcss": "^8.2.4",
+    "react": "^17.0.1",
+    "react-three-fiber": "^5.3.13",
+    "rollup-plugin-postcss": "^4.0.0",
+    "size-limit": "^4.9.1",
+    "three": "^0.124.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "gitHead": "7c061e8a4dc471dad732814a457a812bd745ed52"
+}

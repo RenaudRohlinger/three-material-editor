@@ -1,0 +1,69 @@
+{
+  "name": "three-material-editor",
+  "private": true,
+  "description": "Three Material shader editor",
+  "author": "Renaud ROHLINGER",
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/plugin-syntax-flow": "^7.12.1",
+    "@changesets/changelog-github": "^0.2.8",
+    "@changesets/cli": "^2.13.1",
+    "@react-three/drei": "^2.2.18",
+    "@size-limit/preset-big-lib": "^4.9.1",
+    "@types/react": "^17.0.0",
+    "@types/react-dom": "^17.0.0",
+    "lerna": "^3.15.0",
+    "postcss": "^8.2.4",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "react-three-fiber": "^5.3.13",
+    "rollup-plugin-postcss": "^4.0.0",
+    "rollup-plugin-typescript2": "^0.29.0",
+    "tsdx": "^0.14.1",
+    "typescript": "^3.9.7"
+  },
+  "workspaces": [
+    "packages/*"
+  ],
+  "size-limit": [
+    {
+      "path": "packages/vanilla/dist/vanilla.cjs.production.min.js",
+      "limit": "1 KB"
+    },
+    {
+      "path": "packages/vanilla/dist/vanilla.esm.js",
+      "limit": "300 KB"
+    },
+    {
+      "path": "packages/react/dist/react.cjs.production.min.js",
+      "limit": "1 KB"
+    },
+    {
+      "path": "packages/react/dist/react.esm.js",
+      "limit": "200 KB"
+    },
+    {
+      "path": "packages/core/dist/core.cjs.production.min.js",
+      "limit": "1 KB"
+    },
+    {
+      "path": "packages/core/dist/core.esm.js",
+      "limit": "200 KB"
+    }
+  ],
+  "scripts": {
+    "lerna": "lerna",
+    "size": "NODE_ENV=production size-limit",
+    "start": "lerna run start --stream --parallel",
+    "test": "lerna run test --",
+    "lint": "lerna run lint -- --fix",
+    "build": "lerna run build",
+    "prepublish": "lerna run prepublish",
+    "start:app": "yarn run build && yarn --cwd example && yarn --cwd example start",
+    "start:vanilla": "yarn run build && yarn --cwd example && yarn --cwd example vanilla",
+    "changeset": "changeset",
+    "release": "lerna publish",
+    "version:canary": "changeset version --snapshot canary",
+    "release:canary": "changeset publish --tag canary"
+  }
+}

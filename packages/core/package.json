@@ -1,0 +1,55 @@
+{
+  "name": "@three-material-editor/core",
+  "version": "0.0.7",
+  "description": "Internal, core",
+  "author": "Renaud ROHLINGER",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RenaudRohlinger/three-material-editor.git",
+    "directory": "packages/core"
+  },
+  "keywords": [
+    "three",
+    "editor",
+    "react",
+    "glsl",
+    "material",
+    "shader"
+  ],
+  "scripts": {
+    "start": "tsdx watch --tsconfig tsconfig.build.json --verbose --noClean",
+    "build": "NODE_ENV=production tsdx build --tsconfig tsconfig.build.json",
+    "lint": "tsdx lint",
+    "prepublish": "npm run build"
+  },
+  "peerDependencies": {
+    "react": ">=16",
+    "react-dom": ">=16",
+    "three": "*"
+  },
+  "main": "dist/index.js",
+  "files": [
+    "README.md",
+    "dist"
+  ],
+  "typings": "dist/index.d.ts",
+  "dependencies": {
+    "@monaco-editor/react": "^4.0.6",
+    "ace-builds": "^1.4.12",
+    "autoprefixer": "^10.2.3",
+    "monaco-editor": "^0.21.3",
+    "react-icons": "^4.1.0",
+    "react-use-gesture": "^9.0.0",
+    "valtio": "^0.6.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.12.10",
+    "@babel/plugin-syntax-flow": "^7.12.1",
+    "postcss": "^8.2.4",
+    "react": "^16.8.0 || ^17.0.0",
+    "react-dom": "^16.8.0 || ^17.0.0",
+    "rollup-plugin-postcss": "^4.0.0",
+    "three": "^0.124.0"
+  }
+}

@@ -1,0 +1,35 @@
+.tabs {
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 1000;
+  background: rgb(68 68 68);
+  color: #ccc;
+  padding: 0;
+  text-align: center;
+  font-size: 13px;
+  display: flex;
+  width: var(--editor-width);
+  overflow-x: auto;
+}
+.tabs.full {
+  width: calc(100% - var(--editor-menu-width));
+}
+.tabs > div {
+  cursor: pointer;
+  display: flex;
+}
+.tabs > div > div{
+  padding: 7px 7px;
+  display: inline-flex;
+  line-height: 10px;
+  border-right: 1px solid #37383a;
+}
+.tabs svg {
+  font-size: 14px;
+  margin: 0 4px;
+}
+.tactive {
+  background: rgb(31,31,31);
+  color: #fff;
+}

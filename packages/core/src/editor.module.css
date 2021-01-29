@@ -1,0 +1,122 @@
+
+.colorf {
+  color: rgb(120, 220, 232);
+}
+.colorv {
+  color: rgb(252, 152, 103);
+}
+
+.editor_c {
+  --editor-menu-width: 170px;
+  --editor-width: 520px;
+  --editor-minus-height: 0px;
+
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 999;
+
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  sans-serif;
+  color: #fff;
+  margin: 0;
+  padding: 4px 6px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  user-select: none;
+}
+
+.editor {
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 999;
+  background-color: rgba(36,36,36,1);
+  height: min(100vh, max(120px, calc(100% - var(--editor-minus-height))));
+  padding-top: 28px;
+  width: min(calc(100vw - 160px), var(--editor-width)) !important;
+  transition: width .3s cubic-bezier(0.075, 0.82, 0.165, 1), height .3s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+.editor svg {
+  display: inline-block;
+  vertical-align: initial;
+}
+.editor *, .editor *::after, .editor *::before {
+  box-sizing: border-box;
+}
+.editor_c.full {
+  width: calc(100% - var(--editor-menu-width));
+  height: 100%;
+}
+.editor_c.full .editor {
+  width: calc(100% - var(--editor-menu-width)) !important;
+  height: 100%;
+}
+
+.editor_h {
+  --editor-width: 0px !important;
+}
+.editor * {
+  font-family: inherit;
+}
+.editor.top-left {
+  right: initial;
+  left: 0;
+}
+
+.editor.bottom-left {
+  right: initial;
+  top: initial;
+  bottom: 0;
+  left: 0;
+}
+.editor.bottom-right {
+  top: initial;
+  bottom: 0;
+}
+.embed {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+.embed > svg {
+  display: none;
+  position: absolute;
+  top: 8px;
+  left: 10px;
+}
+.embedfull {
+  position: fixed;
+  z-index: 1000;
+  top: initial;
+  left: initial;
+  /* pointer-events: none; */
+  right: 14px;
+  bottom: 14px;
+  box-shadow: 0px 8px 28px rgb(0 0 0 / 25%), 0 10px 10px rgb(0 0 0 / 22%);
+
+  width: 70% !important;
+  height: auto !important;
+  max-width: 800px !important;
+  max-height: 620px !important;
+}
+.embedfull canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
+.embedfull > svg {
+  display: block;
+}
+.embedglass {
+  position: absolute;
+  filter: -webkit-blur(20px);
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  backdrop-filter: blur(7px);
+  z-index: -1;
+}

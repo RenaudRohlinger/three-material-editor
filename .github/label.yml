@@ -1,0 +1,14 @@
+examples:
+  - example/*
+  - example/**/*
+
+react:
+  - packages/react/*
+  - packages/react/**/*
+
+core:
+  - packages/core/*
+  - packages/core/**/*
+
+repo:
+  - ./*

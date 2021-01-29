@@ -1,0 +1,50 @@
+{
+  "name": "@three-material-editor/vanilla",
+  "version": "0.0.7",
+  "description": "Official React library for @three-material-editor",
+  "author": "Renaud ROHLINGER",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RenaudRohlinger/three-material-editor.git",
+    "directory": "packages/vanilla"
+  },
+  "keywords": [
+    "three",
+    "editor",
+    "glsl",
+    "material",
+    "shader"
+  ],
+  "scripts": {
+    "start": "tsdx watch --tsconfig tsconfig.build.json --verbose --noClean",
+    "build": "NODE_ENV=production tsdx build --tsconfig tsconfig.build.json",
+    "lint": "tsdx lint",
+    "prepublish": "npm run build",
+    "size": "size-limit",
+    "analyze": "size-limit --why"
+  },
+  "typings": "dist/index.d.ts",
+  "main": "./dist/index.js",
+  "files": [
+    "README.md",
+    "dist"
+  ],
+  "peerDependencies": {
+    "three": "*"
+  },
+  "dependencies": {
+    "@three-material-editor/core": "^0.0.7",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.12.10",
+    "@babel/preset-env": "^7.12.11",
+    "@size-limit/preset-big-lib": "^4.9.1",
+    "postcss": "^8.2.4",
+    "rollup-plugin-postcss": "^4.0.0",
+    "size-limit": "^4.9.1",
+    "three": "^0.124.0"
+  }
+}

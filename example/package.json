@@ -1,0 +1,33 @@
+{
+  "name": "@three-material-editor/example",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "parcel index.html",
+    "vanilla": "parcel vanilla.html",
+    "build": "parcel build index.html"
+  },
+  "dependencies": {
+    "r3f-perf": "^0.77.0",
+    "react": "^17.0.1",
+    "react-app-polyfill": "^1.0.0",
+    "react-dom": "^17.0.1",
+    "three": "^0.124.0"
+  },
+  "alias": {
+    "@three-material-editor/react": "../packages/react",
+    "@three-material-editor/core": "../packages/core",
+    "@three-material-editor/vanilla": "../packages/vanilla",
+    "react": "../node_modules/react",
+    "react-dom": "../node_modules/react-dom/profiling",
+    "scheduler/tracing": "../node_modules/scheduler/tracing-profiling"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.12.10",
+    "@types/react": "^16.9.11",
+    "@types/react-dom": "^16.8.4",
+    "parcel": "^1.12.3",
+    "typescript": "^3.4.5"
+  }
+}

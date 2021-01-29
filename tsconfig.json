@@ -1,0 +1,16 @@
+{
+  "extends": "./tsconfig.build.json",
+  "include": ["packages", "types", "scripts", "example"],
+  "compilerOptions": {
+    "allowJs": false,
+    "baseUrl": ".",
+    "noImplicitAny": false,
+    "typeRoots": ["./node_modules/@types", "./types"],
+    "paths": {
+      "@three-material-editor/core": ["packages/core/src"],
+      "@three-material-editor/react": ["packages/react/src"],
+      "@three-material-editor/vanilla": ["packages/vanilla/src"],
+      "$test/*": ["test/*"]
+    }
+  }
+}

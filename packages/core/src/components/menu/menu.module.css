@@ -1,0 +1,128 @@
+.menu {
+  position: fixed;
+  z-index: 999;
+  transform: translateX(calc(min(calc(100vw - 160px), var(--editor-width)) * -1 - 100% + 7px));
+  top: 0;
+  background-color: rgb(41, 43, 45);
+  color: rgba(145,145,145,1);
+  font-size: 13px;
+  padding: 5px 0;
+  min-width: 160px;
+  cursor: nesw-resize;
+  height: min(100vh, max(120px, calc(100% - var(--editor-minus-height))));
+  overflow: hidden;
+  padding-bottom: 23px;
+  transition: transform .3s cubic-bezier(0.075, 0.82, 0.165, 1), width .3s cubic-bezier(0.075, 0.82, 0.165, 1), height .3s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+.menu svg {
+  display: inline-block;
+  vertical-align: initial;
+}
+.menu.full {
+  left: 0;
+  height: 100%;
+  width: var(--editor-menu-width);
+  transform: none;
+}
+.menurh {
+  height: auto;
+}
+
+.menu svg {
+  margin-bottom: -3px;
+  cursor: pointer;
+}
+.menu svg.eye {
+  position: absolute;
+  right: 0;
+  margin: 3px 7px;
+}
+
+.mhead {
+  display: flex;
+  justify-content: space-around;
+  padding: 0px 4px 4px 4px;
+}
+.mhead svg {
+  width: 24px;
+  height: 24px;
+  padding: 3px;
+}
+.hmenu  {
+  padding: 3px;
+  cursor: pointer;
+  position: relative;
+}
+.menu ul {
+  margin: 2px 0px;
+  padding: 0px 0px 3px 0;
+}
+.menu > div {
+  padding: 4px 0;
+  cursor: pointer;
+}
+.menu .sbopen {
+  color: #ccc;
+}
+.menu li {
+  list-style: none;
+  padding: 4px 6px 4px 20px;
+  cursor: pointer;
+}
+.open {
+  color: rgb(195 175 144);
+}
+.mactive {
+  background-color: rgb(55,55,61);
+  color: rgb(255 193 100);
+}
+.multiusers {
+  padding-left: 16px;
+}
+.multiusers small {
+  margin-top: -4px;
+  display: inline-block;
+  position: absolute;
+  font-size: 9px;
+}
+
+.menulist {
+  max-height: 100%;
+  overflow: scroll;
+  padding-bottom: 30px;
+}
+.menub {
+  display: flex;
+  justify-content: space-around;
+  flex-direction: column;
+  padding: 4px;
+}
+
+.menubaction {
+  background-color: rgb(0,122,204);
+  display: block;
+  font-weight: bold;
+  line-height: 30px;
+  padding: 0 6px;
+  color: #fff;
+  cursor: pointer;
+  margin: 7px;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+}
+.menubaction.closemenubaction {
+  background-color: rgb(235, 38, 94);
+}
+
+.resetmenub {
+  margin-top: 40px;
+}
+.isModif {
+  font-weight: bold;
+  float: revert;
+  float: right;
+  padding: 0 2px;
+}
