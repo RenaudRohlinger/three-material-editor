@@ -2,7 +2,7 @@ three-material-editor
 ========
 [![NPM Package][npm]][npm-url] [![Build Size][build-size]][build-size-url] [![NPM Downloads][npm-downloads]][npmtrends-url] 
 ----
-![image](https://user-images.githubusercontent.com/15867665/106266295-98d43980-626b-11eb-9471-dc7cc56270a7.png)
+![image](https://user-images.githubusercontent.com/15867665/106269312-b2778000-626f-11eb-906f-6def286e6c52.png)
 
 Three Material Editor is a GLSL editor for Threejs scene. It will automatically detect the WebGL programs and provide live edit of your shaders.
 The editor can generates an onBeforeCompile function and a possess a diff editor to analyze your changes.
