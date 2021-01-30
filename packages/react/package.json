@@ -1,6 +1,6 @@
 {
   "name": "@three-material-editor/react",
-  "version": "0.1.1",
+  "version": "0.1.0",
   "description": "Official React library for @three-material-editor",
   "author": "Renaud ROHLINGER",
   "license": "MIT",
@@ -38,21 +38,22 @@
   "peerDependencies": {
     "react": ">=16",
     "react-dom": ">=16",
-    "react-icons": "*",
     "react-three-fiber": "*",
     "three": "*"
   },
   "dependencies": {
-    "@three-material-editor/core": "^0.1.1",
-    "react": "^17.0.1",
-    "react-three-fiber": "^5.3.13",
-    "three": "^0.124.0"
+    "@three-material-editor/core": "^0.1.1"
   },
   "devDependencies": {
     "@babel/core": "^7.12.10",
     "@babel/preset-env": "^7.12.11",
     "@babel/preset-flow": "^7.12.1",
-    "@babel/preset-react": "^7.12.10"
+    "@babel/preset-react": "^7.12.10",
+    "postcss": "^8.2.4",
+    "react": "^17.0.1",
+    "react-three-fiber": "^5.3.13",
+    "rollup-plugin-postcss": "^4.0.0",
+    "three": "^0.125.0"
   },
   "publishConfig": {
     "access": "public"
