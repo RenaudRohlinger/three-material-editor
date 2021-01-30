@@ -230,6 +230,7 @@ const EditorEdit = () => {
       theme={'vs-dark'}
       onMount={handleEditorDidMount}
       height={'100%'}
+      keepCurrentModel={true}
       path={snapshot.activeMaterial.model + ''}
       defaultLanguage={
         snapshot.activeMaterial.model === 'urn:obc_result'

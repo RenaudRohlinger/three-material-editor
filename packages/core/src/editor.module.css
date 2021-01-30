@@ -112,11 +112,10 @@
 }
 .embedglass {
   position: absolute;
-  filter: -webkit-blur(20px);
   left: 0;
   right: 0;
   bottom: 0;
   top: 0;
-  backdrop-filter: blur(7px);
+  backdrop-filter: blur(10px);
   z-index: -1;
 }

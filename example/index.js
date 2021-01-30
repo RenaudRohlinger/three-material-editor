@@ -76,10 +76,10 @@ const App = () => {
       {/* <BoxShader position={[0, 1, 0]} rotation={[.35,.35,.35]} /> */}
       {/* <BoxShader2 position={[2, 1, 0]} rotation={[.35,.35,.35]} /> */}
        <BoxShader2 position={[2, 1, 0]} rotation={[.35,.35,.35]} />
-       <Text fontSize={3} letterSpacing={-0.06}>
+       {/* <Text fontSize={3} letterSpacing={-0.06}>
           drei
           <MeshDistortMaterial factor={2} color={'black'} />
-        </Text>
+        </Text> */}
       {/* <mesh position-x={-2} rotation={[.35,.35,.35]}>
         <boxBufferGeometry args={[1,1,1,32,32,32]} />
         <MeshDistortMaterial factor={2}/>
