@@ -201,6 +201,7 @@ const EditorEdit = () => {
             'cshader',
             `urn:${name}.${type}_orig`
           );
+          editorContext.editor.trigger('fold', 'editor.foldLevel1');
         }
       }
     }
@@ -246,11 +247,12 @@ const EditorEdit = () => {
         return false;
       }}
       // onValidate={handleEditorValidation}
-      // options={{
-      //   formatOnType: true,
-      //   foldingHighlight: false,
-      //   folding: true
-      // }}
+      options={{
+        formatOnType: true,
+        foldingHighlight: false,
+        folding: true,
+        foldingStrategy: 'auto'
+      }}
     />
   );
 };

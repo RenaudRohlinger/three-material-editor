@@ -8,11 +8,9 @@ export const replaceShaderChunks = (code: string) => {
     includeRegExp,
     (_substring: any, _indent: any, name: any) => {
       let chunk = ShaderChunk[name];
-      chunk = chunk.split('\n').map(line => line.trim()).join(`
-      `);
+      chunk = chunk.split('\n').map(line => line).join(`\n\t`);
 
-      return `// #include <${name}>
-      ${chunk}`;
+      return `// #include <${name}>\n\t${chunk}\n//\n`;
     }
   );
   return format;
