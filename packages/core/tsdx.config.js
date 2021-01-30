@@ -3,6 +3,7 @@ const autoprefixer = require('autoprefixer');
 
 module.exports = {
   rollup(config, options) {
+    config.treeshake.moduleSideEffects = false;
     config.plugins.push(
       postcss({
         plugins: [
@@ -11,7 +12,6 @@ module.exports = {
         inject: true
       })
     );
-    config.treeshake.moduleSideEffects = false;
     return config;
   },
 };

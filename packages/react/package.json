@@ -25,43 +25,34 @@
     "size": "size-limit",
     "analyze": "size-limit --why"
   },
-  "size-limit": [
-    {
-      "path": "dist/react.cjs.production.min.js",
-      "limit": "200 KB"
-    },
-    {
-      "path": "dist/react.esm.js",
-      "limit": "200 KB"
-    }
-  ],
   "typings": "dist/index.d.ts",
   "main": "dist/index.js",
   "files": [
     "README.md",
     "dist"
   ],
+  "module": "dist/index.js",
+  "alias": {
+    "@three-material-editor/core": "../core"
+  },
   "peerDependencies": {
     "react": ">=16",
     "react-dom": ">=16",
     "react-three-fiber": "*",
-    "three": "*"
+    "three": "*",
+    "react-icons": "*"
   },
   "dependencies": {
-    "@three-material-editor/core": "^0.1.0"
+    "@three-material-editor/core": "^0.1.0",
+    "three": "^0.124.0",
+    "react": "^17.0.1",
+    "react-three-fiber": "^5.3.13"
   },
   "devDependencies": {
     "@babel/core": "^7.12.10",
     "@babel/preset-env": "^7.12.11",
     "@babel/preset-flow": "^7.12.1",
-    "@babel/preset-react": "^7.12.10",
-    "@size-limit/preset-small-lib": "^4.9.1",
-    "postcss": "^8.2.4",
-    "react": "^17.0.1",
-    "react-three-fiber": "^5.3.13",
-    "rollup-plugin-postcss": "^4.0.0",
-    "size-limit": "^4.9.1",
-    "three": "^0.124.0"
+    "@babel/preset-react": "^7.12.10"
   },
   "publishConfig": {
     "access": "public"

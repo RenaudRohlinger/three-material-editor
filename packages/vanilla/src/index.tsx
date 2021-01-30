@@ -34,7 +34,8 @@ export let MaterialEditor = (
   _options?: MaterialEditorOptions
 ) => {};
 
-if (process.env.NODE_ENV === 'development' || process.env.TME_PROD === 'SHOW') {
+if (process.env.NODE_ENV === 'production' || process.env.TME_PROD === 'SHOW') {
+} else {
   const resizeCanvasToDisplaySize = (
     gl: WebGLRenderer,
     options?: MaterialEditorOptions

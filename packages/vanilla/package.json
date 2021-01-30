@@ -30,21 +30,18 @@
     "README.md",
     "dist"
   ],
-  "peerDependencies": {
-    "three": "*"
+  "module": "dist/index.js",
+  "alias": {
+    "@three-material-editor/core": "../core"
   },
   "dependencies": {
     "@three-material-editor/core": "^0.1.0",
     "react": "^17.0.1",
-    "react-dom": "^17.0.1"
+    "react-dom": "^17.0.1",
+    "three": "^0.124.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.10",
-    "@babel/preset-env": "^7.12.11",
-    "@size-limit/preset-big-lib": "^4.9.1",
-    "postcss": "^8.2.4",
-    "rollup-plugin-postcss": "^4.0.0",
-    "size-limit": "^4.9.1",
-    "three": "^0.124.0"
+    "@babel/preset-env": "^7.12.11"
   }
 }

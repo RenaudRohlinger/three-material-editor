@@ -6,8 +6,6 @@
   "license": "MIT",
   "devDependencies": {
     "@babel/plugin-syntax-flow": "^7.12.1",
-    "@changesets/changelog-github": "^0.2.8",
-    "@changesets/cli": "^2.13.1",
     "@react-three/drei": "^2.2.18",
     "@size-limit/preset-big-lib": "^4.9.1",
     "@types/react": "^17.0.0",
@@ -32,7 +30,7 @@
     },
     {
       "path": "packages/vanilla/dist/vanilla.esm.js",
-      "limit": "300 KB"
+      "limit": "100 KB"
     },
     {
       "path": "packages/react/dist/react.cjs.production.min.js",
@@ -40,7 +38,7 @@
     },
     {
       "path": "packages/react/dist/react.esm.js",
-      "limit": "200 KB"
+      "limit": "100 KB"
     },
     {
       "path": "packages/core/dist/core.cjs.production.min.js",
@@ -53,17 +51,14 @@
   ],
   "scripts": {
     "lerna": "lerna",
-    "size": "NODE_ENV=production size-limit",
+    "size": "NODE_ENV=production size-limit --why",
     "start": "lerna run start --stream --parallel",
     "test": "lerna run test --",
     "lint": "lerna run lint -- --fix",
-    "build": "lerna run build",
+    "build": "NODE_ENV=production lerna run build",
     "prepublish": "lerna run prepublish",
     "start:app": "yarn run build && yarn --cwd example && yarn --cwd example start",
     "start:vanilla": "yarn run build && yarn --cwd example && yarn --cwd example vanilla",
-    "changeset": "changeset",
-    "release": "lerna publish",
-    "version:canary": "changeset version --snapshot canary",
-    "release:canary": "changeset publish --tag canary"
+    "release": "lerna publish"
   }
 }

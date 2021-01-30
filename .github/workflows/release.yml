@@ -2,7 +2,7 @@ name: Release
 on:
   push:
     branches:
-      - master
+      - main
 jobs:
   release:
     runs-on: ubuntu-latest
@@ -19,21 +19,3 @@ jobs:
 
       - name: Install deps and build (with cache)
         uses: bahmutov/npm-install@v1
-
-      - name: Create Release Pull Request or Publish to npm
-        uses: changesets/action@master
-        with:
-          publish: yarn release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-      - name: Publishing canary releases to npm registry
-        if: steps.changesets.outputs.published != 'true'
-        run: |
-          git checkout master
-          yarn version:canary
-          yarn release:canary
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
