@@ -15,6 +15,7 @@ export const addShaderDebugMaterial = (material: any) => {
   const epoch = Date.now();
   const shader = getShaderWithObc(newMaterial)
   newMaterial = Object.assign(newMaterial, shader);
+
   newMaterial.onBeforeCompile = function (shader: any) {
     // initialize with the oBC of the material 
     // @ts-ignore

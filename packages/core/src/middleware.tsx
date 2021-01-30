@@ -18,7 +18,7 @@ export const traverseMaterialsToProgram = (scene: Scene, gl: any) => {
 
       if (!el.material.defines.muidEditor) {
         el.material.defines = Object.assign(el.material.defines || {}, {
-          muidEditor: el.material.baseMaterial ? el.material.baseMaterial.id : el.material.id
+          muidEditor: el.material.id
         });
       }
       const muid = el.material.id;
@@ -33,11 +33,11 @@ export const traverseMaterialsToProgram = (scene: Scene, gl: any) => {
         el.material = material;
         el.material.numberOfMaterialsUser = 1;
         isAlreadyDerived[muid] = el.material;
-        el.material.customProgramCacheKey = () => {
-          return Date.now();
-        };
+        // el.material.customProgramCacheKey = () => {
+        //   return Date.now();
+        // };
       }
-      if (isAlreadyDerived[muid] && !el.material.baseMaterial) {
+      if (isAlreadyDerived[muid]) {
         el.material = isAlreadyDerived[muid];
       }
     }
@@ -49,7 +49,6 @@ export const traverseMaterialsToProgram = (scene: Scene, gl: any) => {
     const cacheKeySplited = program.cacheKey.split(',');
     // convert and supply all mesh associated to this material to a debugger material
     const muidDerived = cacheKeySplited[cacheKeySplited.findIndex(getMUIIndex) + 1];
-   
     if (!isNaN(muidDerived) && isAlreadyDerived[muidDerived]) {
       isAlreadyDerived[muidDerived].program = program
       programs.push({
