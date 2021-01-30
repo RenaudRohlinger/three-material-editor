@@ -8,14 +8,13 @@ export const addShaderDebugMaterial = (material: any) => {
 
   const type: any = getShaderLibForMaterial(material);
   if (type) {
-    newMaterial.uniforms = type.uniforms;
+    newMaterial.uniforms = Object.assign(newMaterial.uniforms || {}, type.uniforms)
     newMaterial.vertexShader = type.vertexShader;
     newMaterial.fragmentShader = type.fragmentShader;
   }
-
   const epoch = Date.now();
-
-  newMaterial = Object.assign(newMaterial, getShaderWithObc(newMaterial));
+  const shader = getShaderWithObc(newMaterial)
+  newMaterial = Object.assign(newMaterial, shader);
   newMaterial.onBeforeCompile = function (shader: any) {
     // initialize with the oBC of the material 
     // @ts-ignore

@@ -6,10 +6,9 @@ import './index.css'
 import { Perf } from 'r3f-perf';
 import { MaterialEditor } from '@three-material-editor/react';
 // import { MeshDistortMaterial } from '@react-three/drei'
-import { Environment, MeshDistortMaterial, Sphere } from '@react-three/drei'
+import { Environment, MeshDistortMaterial, Sphere, Text } from '@react-three/drei'
 
 import * as THREE from 'three';
-import { BoxBufferGeometry } from 'three';
 
 const BoxStandard = (props) => {
   return (
@@ -77,10 +76,14 @@ const App = () => {
       {/* <BoxShader position={[0, 1, 0]} rotation={[.35,.35,.35]} /> */}
       {/* <BoxShader2 position={[2, 1, 0]} rotation={[.35,.35,.35]} /> */}
        <BoxShader2 position={[2, 1, 0]} rotation={[.35,.35,.35]} />
-      <mesh position-x={-2} rotation={[.35,.35,.35]}>
+       {/* <Text fontSize={3} letterSpacing={-0.06}>
+          drei
+          <MeshDistortMaterial factor={2} color={'black'} />
+        </Text> */}
+      {/* <mesh position-x={-2} rotation={[.35,.35,.35]}>
         <boxBufferGeometry args={[1,1,1,32,32,32]} />
         <MeshDistortMaterial factor={2}/>
-      </mesh> 
+      </mesh>  */}
     </Canvas>
   );
 }
