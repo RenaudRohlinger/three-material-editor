@@ -33,9 +33,9 @@ export const traverseMaterialsToProgram = (scene: Scene, gl: any) => {
         el.material = material;
         el.material.numberOfMaterialsUser = 1;
         isAlreadyDerived[muid] = el.material;
-        // el.material.customProgramCacheKey = () => {
-        //   return Date.now();
-        // };
+        el.material.customProgramCacheKey = () => {
+          return Date.now();
+        };
       }
       if (isAlreadyDerived[muid]) {
         el.material = isAlreadyDerived[muid];

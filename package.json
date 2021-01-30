@@ -60,5 +60,8 @@
     "start:app": "yarn run build && yarn --cwd example && yarn --cwd example start",
     "start:vanilla": "yarn run build && yarn --cwd example && yarn --cwd example vanilla",
     "release": "lerna publish"
+  },
+  "dependencies": {
+    "size-limit": "^4.9.1"
   }
 }
