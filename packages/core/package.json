@@ -1,6 +1,6 @@
 {
   "name": "@three-material-editor/core",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Internal, core",
   "author": "Renaud ROHLINGER",
   "license": "MIT",
@@ -41,8 +41,8 @@
     "monaco-editor": "^0.21.3",
     "react-icons": "^4.1.0",
     "react-use-gesture": "^9.0.0",
-    "valtio": "^0.6.1",
-    "three": "^0.124.0"
+    "three": "^0.124.0",
+    "valtio": "^0.6.1"
   },
   "devDependencies": {
     "@babel/core": "^7.12.10",
