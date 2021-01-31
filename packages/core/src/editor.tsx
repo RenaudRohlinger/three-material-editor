@@ -201,6 +201,7 @@ const EditorEdit = () => {
             'cshader',
             `urn:${name}.${type}_orig`
           );
+          // TODO ADD OPTION
           editorContext.editor.trigger('fold', 'editor.foldLevel1');
         }
       }

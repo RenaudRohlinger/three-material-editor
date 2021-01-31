@@ -13,12 +13,16 @@ export const addShaderDebugMaterial = (material: any) => {
     newMaterial.fragmentShader = type.fragmentShader;
   }
   const epoch = Date.now();
+  console.log(newMaterial.uniforms)
+
   const shader = getShaderWithObc(newMaterial)
   newMaterial = Object.assign(newMaterial, shader);
 
+// TODO FIX OBC FOR DISTORT
   newMaterial.onBeforeCompile = function (shader: any) {
     // initialize with the oBC of the material 
     // @ts-ignore
+    console.log(shader.uniforms)
     if (this.editorOnBeforeCompile) {
       // @ts-ignore
       this.editorOnBeforeCompile.call(this, shader)

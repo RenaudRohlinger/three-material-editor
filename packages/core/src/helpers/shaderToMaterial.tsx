@@ -27,8 +27,8 @@ export const getTypeForMaterial = (material: string) => {
 export const getShaderWithObc = (material: any) => {
   let builtinType = MATERIAL_TYPES_TO_SHADERS[material.type];
   const dummyShaderLib = Object.assign({}, ShaderLib[builtinType]);
-  
-  
+  // TODO DEBUG UNIFORMS OF CUSTOM MATERIALS SHADER IS NOT SHOWING
+  console.log(material, dummyShaderLib)
   if (!material.obcAdded && material) {
     material.obcAdded = true;
     material.onBeforeCompile.call(

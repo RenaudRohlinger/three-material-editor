@@ -4,6 +4,9 @@ import { editorState } from '../state';
 import { commentedIncludeRegExp, includeRegExp } from './regex';
 
 export const replaceShaderChunks = (code: string) => {
+  if (typeof code !== 'string') {
+    return
+  }
   const format = code.replaceAll(
     includeRegExp,
     (_substring: any, _indent: any, name: any) => {
@@ -17,6 +20,9 @@ export const replaceShaderChunks = (code: string) => {
 };
 
 const _formatToObc = (code: string) => {
+  if (typeof code !== 'string') {
+    return
+  }
   const resetIncludes = code
     .replaceAll(
       commentedIncludeRegExp,
@@ -48,6 +54,9 @@ export const generateHMRObc = (shader: any) => {
   const base = _formatToObc(oModel);
   const edited = _formatToObc(mModel);
   const result = new Map();
+  if (!base || !edited) {
+    return ''
+  }
   for (let index = 0; index < base.length; index++) {
     const b = base[index];
     const e = edited[index];
@@ -81,6 +90,9 @@ export const generateOBc = (_code: string) => {
   const base = _formatToObc(oModel);
   const edited = _formatToObc(mModel);
   const result = new Map();
+  if (!base || !edited) {
+    return ''
+  }
   for (let index = 0; index < base.length; index++) {
     const b = base[index];
     const e = edited[index];
