@@ -66,11 +66,11 @@ const App = () => {
       <ambientLight intensity={0.5} />
 
       <React.Suspense fallback={null}>
-        <Sphere
+        {/* <Sphere
           args={[1, 32, 32]}
         >
           <MeshDistortMaterial factor={2} color={'black'} />
-        </Sphere>
+        </Sphere> */}
         {/* <Environment preset={'studio'} /> */}
         <EffectComposer>
           <Noise opacity={0.4} />

@@ -23,8 +23,12 @@ export const traverseMaterialsToProgram = (scene: Scene, gl: any) => {
   const programs: object[] = [];
   // update
   scene?.traverse((el: any) => {
+   
     // Vanilla return Object3D so (el instanceof Mesh || el instanceof InstancedMesh) doesn't work ?
     if (el.material) {
+      if (el.debugMaterial) {
+        return
+      }
       if (!el.material.defines) {
         el.material.defines = {};
       }
@@ -39,7 +43,7 @@ export const traverseMaterialsToProgram = (scene: Scene, gl: any) => {
       if (
         muid &&
         !isAlreadyDerived[muid] &&
-        el.material.defines && !el.material.debugMaterial
+        el.material.defines
       ) {
         const { material } = addShaderDebugMaterial(el.material);
 
