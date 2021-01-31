@@ -3,7 +3,7 @@ import { editorContext } from '..';
 import { editorState } from '../state';
 import { commentedIncludeRegExp, includeRegExp } from './regex';
 
-export const replaceShaderChunks = (code: string) => {
+export const replaceShaderChunks = (code: string | undefined) => {
   if (typeof code !== 'string') {
     return
   }
@@ -19,7 +19,7 @@ export const replaceShaderChunks = (code: string) => {
   return format;
 };
 
-const _formatToObc = (code: string) => {
+const _formatToObc = (code: string | undefined) => {
   if (typeof code !== 'string') {
     return
   }
@@ -76,7 +76,7 @@ export const generateHMRObc = (shader: any) => {
   return newValue;
 };
 
-export const generateOBc = (_code: string) => {
+export const generateOBc = (_code: string | undefined) => {
   const model = editorState.activeMaterial.cachedModel;
   const type =
     editorState.activeMaterial.type === 'frag'

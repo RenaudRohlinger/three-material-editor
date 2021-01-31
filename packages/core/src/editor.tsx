@@ -186,7 +186,7 @@ const EditorEdit = () => {
       if (isEditorReady && material) {
         const name = getTypeForMaterial(program.name) + '_' + program.id;
 
-        let textContent = '';
+        let textContent: string | undefined;
         if (type === 'frag') {
           textContent = replaceShaderChunks(material.fragmentShader);
         } else {
@@ -212,7 +212,7 @@ const EditorEdit = () => {
     const type = editorState.activeMaterial.type;
     const model = editorState.activeMaterial.model;
     const material: any = editorState.activeMaterial.ref.material;
-    let textContent = '';
+    let textContent: string | undefined;
 
     if (type === 'frag') {
       textContent = replaceShaderChunks(material.fragmentShader);
