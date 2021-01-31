@@ -113,7 +113,6 @@ export const SubMenu: VFC<SubMenuProps> = ({ program }) => {
     material.needsUpdate = true;
     editorState.triggerUpdate++;
   };
-
   return material && programGl ? (
     <div key={snapshot.triggerUpdate} className={open ? styles.sbopen : ''}>
       <div
@@ -127,10 +126,10 @@ export const SubMenu: VFC<SubMenuProps> = ({ program }) => {
         }}
       >
         {open ? <RiArrowDownSFill /> : <RiArrowRightSFill />} {name}
-        {programGl.usedTime > 1 && (
+        {material.numberOfMaterialsUser > 1 && (
           <span className={styles.multiusers}>
             <IoCubeOutline />
-            <small>{programGl.usedTime}</small>
+            <small>{material.numberOfMaterialsUser}</small>
           </span>
         )}
         {!material.visible ? (
@@ -331,7 +330,6 @@ export const Menu = () => {
       editorContext.editorMinusHeight = editorHeight;
     }
   });
-
   return editorContext.programs.length > 0 ? (
     <div
       className={`${styles.menu} ${!snapshot.showEditor ? styles.menurh : ''} ${

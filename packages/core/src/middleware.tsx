@@ -32,12 +32,13 @@ export const traverseMaterialsToProgram = (scene: Scene, gl: any) => {
       if (!el.material.defines) {
         el.material.defines = {};
       }
-
+      
       if (!el.material.defines.muidEditor) {
         el.material.defines = Object.assign(el.material.defines || {}, {
           muidEditor: el.material.id
         });
       }
+
       const muid = el.material.id;
       // prevent to derive loop
       if (
@@ -48,15 +49,19 @@ export const traverseMaterialsToProgram = (scene: Scene, gl: any) => {
         const { material } = addShaderDebugMaterial(el.material);
 
         el.material = material;
-        el.material.numberOfMaterialsUser = 1;
+        // to check if multiple material users
+        el.tmeDerived = true;
+        el.material.numberOfMaterialsUser = 1
         isAlreadyDerived[muid] = el.material;
         isAlreadyDerived[muid].mesh = el;
         el.material.customProgramCacheKey = () => {
           return Date.now();
         };
       }
-      if (isAlreadyDerived[muid]) {
-        el.material = isAlreadyDerived[muid];
+      // inc counter if the mesh also use the material
+      if (el.material.defines && !el.tmeDerived) {
+        el.tmeDerived = true;
+        el.material.numberOfMaterialsUser++
       }
     }
   });
