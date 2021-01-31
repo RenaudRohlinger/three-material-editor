@@ -9724,7 +9724,7 @@ react-reconciler@0.26.1:
     object-assign "^4.1.1"
     scheduler "^0.20.1"
 
-react-three-fiber@^5.3.13:
+react-three-fiber@^5.3.13, react-three-fiber@^5.3.18:
   version "5.3.18"
   resolved "https://registry.yarnpkg.com/react-three-fiber/-/react-three-fiber-5.3.18.tgz#50a37d344b631bc932ec0b22ddc8e678e5c9590b"
   integrity sha512-5OHh2/Dq/V+5CeFSthVFADoN9S0Y7P5TMRtVg57eJSsJsL5BEO/rLhuS0xb7lHJn674jCdLnAAn3nMcsNU0HXA==

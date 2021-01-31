@@ -1,12 +1,12 @@
 import 'react-app-polyfill/ie11';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { Canvas } from 'react-three-fiber';
+import { Canvas, useFrame } from 'react-three-fiber';
 import './index.css'
 import { Perf } from 'r3f-perf';
 import { MaterialEditor } from '@three-material-editor/react';
-// import { MeshDistortMaterial } from '@react-three/drei'
 import { Environment, MeshDistortMaterial, Sphere, Text } from '@react-three/drei'
+import { EffectComposer, DepthOfField, Bloom, Noise, Vignette } from '@react-three/postprocessing'
 
 import * as THREE from 'three';
 
@@ -21,8 +21,14 @@ const BoxStandard = (props) => {
 
 
 const BoxNormal = (props) => {
+  const mesh = React.useRef()
+
+  useFrame(() => {
+    mesh.current.rotation.x = mesh.current.rotation.y += 0.01
+  })
+
   return (
-    <mesh {...props}>
+    <mesh ref={mesh} {...props}>
       <boxGeometry args={[1, 1]} />
       <meshNormalMaterial />
     </mesh>
@@ -31,7 +37,6 @@ const BoxNormal = (props) => {
 
 const BoxShader = (props) => {
   const shader = React.useMemo(() => new THREE.MeshNormalMaterial(), [])
-
   return (
     <group>
       <mesh {...props} material={shader}>
@@ -58,7 +63,6 @@ const App = () => {
     <Canvas concurrent shadowMap orthographic pixelRatio={[1, 2]} camera={{ position: [0, 0, 5], near: 1, far: 15, zoom: 100 }}>
       {/* <Perf showGraph={false} position={'top-left'} /> */}
       <MaterialEditor />
-      {/* <ambientLight /> */}
       <ambientLight intensity={0.5} />
 
       <React.Suspense fallback={null}>
@@ -67,9 +71,15 @@ const App = () => {
         >
           <MeshDistortMaterial factor={2} color={'black'} />
         </Sphere>
-        <Environment preset={'studio'} />
+        {/* <Environment preset={'studio'} /> */}
+        <EffectComposer>
+          <Noise opacity={0.4} />
+          <Vignette eskil={false} offset={0.1} darkness={1.1} />
+        </EffectComposer>
+
       </React.Suspense>
 
+    
       {/* <pointLight position={[5, 0, 10]} intensity={1} /> */}
      {/*  <BoxStandard position={[-2, 0, 0]} rotation={[.35,.35,.35]} /> */}
       <BoxNormal position={[2, 0, 0]} rotation={[.35,.35,.35]} />
@@ -80,10 +90,6 @@ const App = () => {
           drei
           <MeshDistortMaterial factor={2} color={'black'} />
         </Text> */}
-      {/* <mesh position-x={-2} rotation={[.35,.35,.35]}>
-        <boxBufferGeometry args={[1,1,1,32,32,32]} />
-        <MeshDistortMaterial factor={2}/>
-      </mesh>  */}
     </Canvas>
   );
 }
