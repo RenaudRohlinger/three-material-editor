@@ -34,7 +34,6 @@ export const LiMenu: VFC<LiMenuProps> = ({ type, program }) => {
   const programGl = program.program;
 
   const name = getTypeForMaterial(programGl.name) + '_' + programGl.id;
-
   const getModif = (type: string) => {
     if (!editorContext.monacoRef) {
       return;
@@ -76,9 +75,7 @@ export const LiMenu: VFC<LiMenuProps> = ({ type, program }) => {
         editorState.showEditor = true;
         editorState.diffMode = false;
         editorState.obcMode = false;
-        // force update the actions button
         checkIfModifications();
-        // editorState.triggerUpdate++
       }}
     >
       {type === 'frag' ? (
@@ -113,7 +110,7 @@ export const SubMenu: VFC<SubMenuProps> = ({ program }) => {
     material.needsUpdate = true;
     editorState.triggerUpdate++;
   };
-  return material && programGl ? (
+  return programGl ? (
     <div key={snapshot.triggerUpdate} className={open ? styles.sbopen : ''}>
       <div
         className={`${styles.hmenu} ${
@@ -126,13 +123,13 @@ export const SubMenu: VFC<SubMenuProps> = ({ program }) => {
         }}
       >
         {open ? <RiArrowDownSFill /> : <RiArrowRightSFill />} {name}
-        {material.numberOfMaterialsUser > 1 && (
+        {material && material.numberOfMaterialsUser > 1 && (
           <span className={styles.multiusers}>
             <IoCubeOutline />
             <small>{material.numberOfMaterialsUser}</small>
           </span>
         )}
-        {!material.visible ? (
+        {material && !material.visible ? (
           <IoEyeOffOutline onClick={hide} className={styles.eye} />
         ) : (
           <IoEyeOutline onClick={hide} className={styles.eye} />

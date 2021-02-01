@@ -12,6 +12,8 @@ import { Menu } from './components/menu/menu';
 import { FullScreen } from './fullscreen';
 import { getTypeForMaterial } from './helpers/shaderToMaterial';
 import Monokai from './helpers/themes/Monokai.json';
+// import { WebGLShader } from 'three/src/renderers/webgl/WebGLShader';
+import { WebGLProgram } from 'three/src/renderers/webgl/WebGLProgram';
 
 // const epoch = Date.now();
 
@@ -30,6 +32,7 @@ export const checkIfModifications = () => {
 };
 export const updateActiveShader = (value: any, type: string) => {
   const material: any = editorContext.activeMaterial.ref.material;
+  const program: any = editorContext.activeMaterial.ref.program;
 
   editorContext.monacoRef.editor.setModelMarkers(
     editorContext.editor.getModel(),
@@ -37,7 +40,26 @@ export const updateActiveShader = (value: any, type: string) => {
     value
   );
   if (material) {
+    if (material.postprocess) {
+      const newCacheKeyPP = material.cacheKey.join(`// endsection \n},`)
+      console.log(newCacheKeyPP)
+      program.cacheKey = newCacheKeyPP
+      material.vertexShader = value
+      console.log(program)
+      const gl = editorContextState.gl
+      // const glVertexShader = new WebGLShader( gl, gl.VERTEX_SHADER, material.vertexShader );
+      const newProgram = new WebGLProgram( gl, gl.VERTEX_SHADER, value );
+      console.log(newProgram)
+      // program.program.destroy()
+      // program.program = null
+      // gl.attachShader(program.program, glVertexShader);
+      // editorContextState.gl.attachShader(program, fragmentShader);
+      gl.linkProgram(program.program);
 
+      checkIfModifications();
+      editorState.triggerUpdate++;
+      return
+    }
     material.editorOnBeforeCompile = (shader: any) => {
       shader.vertexShader = type === 'vert' ? value : material.vertexShader;
       shader.fragmentShader = type === 'frag' ? value : material.fragmentShader;
@@ -202,7 +224,10 @@ const EditorEdit = () => {
             `urn:${name}.${type}_orig`
           );
           // TODO ADD OPTION
-          editorContext.editor.trigger('fold', 'editor.foldLevel1');
+          console.log(material)
+          if (material.type !== 'ShaderMaterial' && material.type !== 'RawShaderMaterial') {
+            editorContext.editor.trigger('fold', 'editor.foldLevel1');
+          }
         }
       }
     }
@@ -211,13 +236,15 @@ const EditorEdit = () => {
   const getText = () => {
     const type = editorState.activeMaterial.type;
     const model = editorState.activeMaterial.model;
+    const program = editorState.activeMaterial.ref.program;
     const material: any = editorState.activeMaterial.ref.material;
     let textContent: string | undefined;
 
     if (type === 'frag') {
-      textContent = replaceShaderChunks(material.fragmentShader);
+      console.log(program)
+      textContent = replaceShaderChunks(material ? material.fragmentShader : program.fragmentShader);
     } else if (type === 'vert') {
-      textContent = replaceShaderChunks(material.vertexShader);
+      textContent = replaceShaderChunks(material ? material.vertexShader : program.vertexShader);
     }
     if (model === 'urn:obc_result') {
       return generateOBc(textContent);

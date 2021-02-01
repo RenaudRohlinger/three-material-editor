@@ -7,6 +7,8 @@ const getMUIIndex = (muid: string) => muid === 'muidEditor';
 const isAlreadyDerived: any[] = [];
 
 let hasInit = false
+let materialInstanceId = 1e10
+
 const meshDebugger:any = new Mesh(undefined, new MeshBasicMaterial({
   color: new Color(0xff0000),
   side: FrontSide,
@@ -20,15 +22,34 @@ export const traverseMaterialsToProgram = (scene: Scene, gl: any) => {
     hasInit = true
     scene.add(meshDebugger)
   }
+  if (editorContextState.composer) {
+    editorContextState.composer.passes.forEach((pass: any) => {
+      if (pass.effects) {
+        pass.effects.forEach((effect: any) => {
+          if (effect.isDerived) {
+            return
+          }
+          effect.isDerived = true
+          effect.defines.set('muidEditor', materialInstanceId)
+          isAlreadyDerived[materialInstanceId] = effect;
+          materialInstanceId++
+          console.log(effect)
+        })
+      }
+    })
+  }
   const programs: object[] = [];
   // update
   scene?.traverse((el: any) => {
-   
+    if (el === 'Effect') {
+
+    }
     // Vanilla return Object3D so (el instanceof Mesh || el instanceof InstancedMesh) doesn't work ?
     if (el.material) {
       if (el.debugMaterial) {
         return
       }
+    
       if (!el.material.defines) {
         el.material.defines = {};
       }
@@ -82,7 +103,7 @@ export const traverseMaterialsToProgram = (scene: Scene, gl: any) => {
       if (program) {
         const programDiagnostic: any = program;
         if (programDiagnostic.diagnostics) {
-          if (isAlreadyDerived[muidDerived].mesh) {
+          if (isAlreadyDerived[muidDerived] && isAlreadyDerived[muidDerived].mesh) {
             if (!meshDebugger.material.visible) {
               meshDebugger.geometry = isAlreadyDerived[muidDerived].mesh.geometry
               meshDebugger.material.visible = true
@@ -97,11 +118,34 @@ export const traverseMaterialsToProgram = (scene: Scene, gl: any) => {
       }
    
     } else {
-      // TODO SUPPORT POSTPROCESS
-      // programs.push({
-      //   material: program,
-      //   program: program,
-      // });
+      if (program.postprocessInitialized) {
+        return
+      }
+      // program.postprocessInitialized = true
+      // const arr = program.cacheKey.split('},')
+      // const frag = arr[0] + '// endsection \n}'
+      // const vert = arr[1] + '// endsection \n}'
+      // // TODO SUPPORT POSTPROCESS
+      // const material:any = new ShaderMaterial({
+      //   // todo add uniforms with program.getUniforms
+      //   uniforms: program.getUniforms().map,
+      //   vertexShader: vert,
+      //   fragmentShader: frag,
+      // })
+      // material.customProgramCacheKey = () => {
+      //   return Date.now();
+      // };
+      // material.postprocess = true
+      // material.cacheKey = arr
+      // const mesh:any = new Mesh(undefined, material)
+      // mesh.debugMaterial = true
+      // scene.add(mesh)
+      // console.log(program.getUniforms())
+      // console.log(scene)
+      // program.destroy()
+      programs.push({
+        program
+      });
     }
   });
   editorContextState.gl = gl;
@@ -112,6 +156,7 @@ export const traverseMaterialsToProgram = (scene: Scene, gl: any) => {
   if (
     programs.length !== editorContextState.programs.length
   ) {
+    console.log(programs)
     editorState.programs = programs;
     editorContextState.programs = programs;
     editorState.triggerUpdate++;

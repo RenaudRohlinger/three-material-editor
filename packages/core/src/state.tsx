@@ -13,6 +13,7 @@ export interface State {
   length: number;
   scene: Scene | null;
   diagnostics: object | null;
+  composer: any | null;
   materials: Material[];
   programs: object[];
   tabs: any;
@@ -40,6 +41,7 @@ export const editorState = proxy<State>({
   length: 0,
   triggerUpdate: 0,
   scene: null,
+  composer: null,
   materials: [],
   diagnostics: {},
   tabs: {},

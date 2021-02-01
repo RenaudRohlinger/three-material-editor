@@ -8,6 +8,7 @@ import {
 } from 'three';
 import {
   editorState,
+  editorContext,
   EditorDom,
   materialsToProgram,
 } from '@three-material-editor/core';
@@ -23,10 +24,13 @@ const optionsDefault: MaterialEditorOptions = {
   fullScreen: true,
 };
 
-export let updateMaterialEditor = (
+export let updateEditor = (
   _scene: Scene,
   _gl: WebGLRenderer,
   _options?: MaterialEditorOptions
+) => {};
+export let useEditorComposer = (
+  _composer: any
 ) => {};
 export let MaterialEditor = (
   _scene: Scene,
@@ -36,7 +40,7 @@ export let MaterialEditor = (
 
 if (process.env.NODE_ENV === 'production' || process.env.TME_PROD === 'SHOW') {
 } else {
-  const resizeCanvasToDisplaySize = (
+  const _resizeCanvasToDisplaySize = (
     gl: WebGLRenderer,
     options?: MaterialEditorOptions
   ) => {
@@ -59,7 +63,7 @@ if (process.env.NODE_ENV === 'production' || process.env.TME_PROD === 'SHOW') {
     return needResize;
   };
 
-  updateMaterialEditor = (
+  updateEditor = (
     scene: Scene,
     gl: WebGLRenderer,
     _options?: MaterialEditorOptions
@@ -67,8 +71,14 @@ if (process.env.NODE_ENV === 'production' || process.env.TME_PROD === 'SHOW') {
     const options = Object.assign(optionsDefault, _options);
 
     materialsToProgram(scene, gl);
-    resizeCanvasToDisplaySize(gl, options);
+    _resizeCanvasToDisplaySize(gl, options);
   };
+
+  useEditorComposer = (composer: any) => {
+    console.log(composer)
+    editorContext.composer = composer
+  }
+
 
   const App = (props: any) => {
     useLayoutEffect(() => {
@@ -93,7 +103,7 @@ if (process.env.NODE_ENV === 'production' || process.env.TME_PROD === 'SHOW') {
     materialsToProgram(scene, gl);
     if (!options || (options && !options.overrideRaf)) {
       const animate = () => {
-        updateMaterialEditor(scene, gl, options);
+        updateEditor(scene, gl, options);
         requestAnimationFrame(animate);
       };
       animate();
