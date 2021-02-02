@@ -74,7 +74,7 @@ const App = () => {
         <Environment preset={'studio'} />
         <EffectComposer ref={useEditorComposer()}>
           <Noise opacity={0.4} />
-          {/* <Vignette eskil={false} offset={0.1} darkness={1.1} /> */}
+          <Vignette eskil={false} offset={0.1} darkness={1.1} />
         </EffectComposer>
 
       </React.Suspense>
@@ -82,7 +82,7 @@ const App = () => {
     
       {/* <pointLight position={[5, 0, 10]} intensity={1} /> */}
      {/*  <BoxStandard position={[-2, 0, 0]} rotation={[.35,.35,.35]} /> */}
-      {/* <BoxNormal position={[2, 0, 0]} rotation={[.35,.35,.35]} /> */}
+      <BoxNormal position={[2, 0, 0]} rotation={[.35,.35,.35]} />
       {/* <BoxShader position={[0, 1, 0]} rotation={[.35,.35,.35]} /> */}
       {/* <BoxShader2 position={[2, 1, 0]} rotation={[.35,.35,.35]} /> */}
        {/* <BoxShader2 position={[2, 1, 0]} rotation={[.35,.35,.35]} /> */}

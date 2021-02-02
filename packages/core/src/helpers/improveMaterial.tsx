@@ -5,17 +5,22 @@ import {
 export const addShaderDebugMaterial = (material: any) => {
   let newMaterial = material;
 
-
   const shader = getShaderWithObc(newMaterial)
   newMaterial = Object.assign(newMaterial, shader);
 
-  const epoch = Date.now();
+  // const epoch = Date.now();
   // add a uniform time helper for animations
   if (!newMaterial.uniforms.time) {
     newMaterial.uniforms.time = {
       value: 0.0
     }
   }
+  if (newMaterial.uniforms) {
+    newMaterial.uniforms.muidEditor = {
+      value: newMaterial.id
+    }
+  }
+
 
   // wait the first compilation that will inject data into the material shaders
   setTimeout(() => {
@@ -37,12 +42,12 @@ export const addShaderDebugMaterial = (material: any) => {
   
       // if time detected in obc or material, automatically update the value
       if (shader.uniforms.time) {
-        shader.uniforms.time = {
-          // @ts-ignore
-          get value() {
-            return (Date.now() - epoch) / 1000;
-          },
-        };
+        // shader.uniforms.time = {
+        //   // @ts-ignore
+        //   get value() {
+        //     return (Date.now() - epoch) / 1000;
+        //   },
+        // };
       }
     };
   }, 0);
