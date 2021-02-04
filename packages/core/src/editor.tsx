@@ -10,10 +10,8 @@ import * as shaderLanguage from './cshader';
 import { EditorTabs } from './components/tabs/tabs';
 import { Menu } from './components/menu/menu';
 import { FullScreen } from './fullscreen';
-import { getTypeForMaterial } from './helpers/shaderToMaterial';
+import { getNameForEditorMaterial } from './helpers/shaderToMaterial';
 import Monokai from './helpers/themes/Monokai.json';
-// import { WebGLShader } from 'three/src/renderers/webgl/WebGLShader';
-import { WebGLProgram } from 'three/src/renderers/webgl/WebGLProgram';
 
 // const epoch = Date.now();
 
@@ -32,7 +30,6 @@ export const checkIfModifications = () => {
 };
 export const updateActiveShader = (value: any, type: string) => {
   const material: any = editorContext.activeMaterial.ref.material;
-  const program: any = editorContext.activeMaterial.ref.program;
 
   editorContext.monacoRef.editor.setModelMarkers(
     editorContext.editor.getModel(),
@@ -40,39 +37,17 @@ export const updateActiveShader = (value: any, type: string) => {
     value
   );
   if (material) {
-    if (material.postprocess) {
-      const newCacheKeyPP = material.cacheKey.join(`// endsection \n},`)
-      console.log(newCacheKeyPP)
-      program.cacheKey = newCacheKeyPP
-      material.vertexShader = value
-      console.log(program)
-      const gl = editorContextState.gl
-      // const glVertexShader = new WebGLShader( gl, gl.VERTEX_SHADER, material.vertexShader );
-      const newProgram = new WebGLProgram( gl, gl.VERTEX_SHADER, value );
-      console.log(newProgram)
-      // program.program.destroy()
-      // program.program = null
-      // gl.attachShader(program.program, glVertexShader);
-      // editorContextState.gl.attachShader(program, fragmentShader);
-      gl.linkProgram(program.program);
-
-      checkIfModifications();
-      editorState.triggerUpdate++;
-      return
+    if (material.isEffect) {
+      material.vertexShader = type === 'vert' ? value : material.vertexShader;
+      material.fragmentShader = type === 'frag' ? value : material.fragmentShader;
+      editorContext.activeMaterial.ref.effect.recompile(editorContext.gl)
+    } else {
+      material.editorOnBeforeCompile = (shader: any) => {
+        shader.vertexShader = type === 'vert' ? value : material.vertexShader;
+        shader.fragmentShader = type === 'frag' ? value : material.fragmentShader;
+      };
     }
-    material.editorOnBeforeCompile = (shader: any) => {
-      shader.vertexShader = type === 'vert' ? value : material.vertexShader;
-      shader.fragmentShader = type === 'frag' ? value : material.fragmentShader;
 
-      // if (shader.uniforms.time) {
-      //   shader.uniforms.time = {
-      //     // @ts-ignore
-      //     get value() {
-      //       return (Date.now() - epoch) / 1000;
-      //     },
-      //   };
-      // }
-    };
 
     checkIfModifications();
     // if (type === 'vert') {
@@ -121,6 +96,8 @@ export const MaterialEditor: FC = () => {
 
 const handleEditorValidation = () => {
   const diagnostics: any = editorState.diagnostics;
+  console.log(diagnostics)
+  const material: any = editorState.activeMaterial.ref.material;
   if (diagnostics && diagnostics.fragmentShader && !diagnostics.runnable && editorContext.monacoRef) {
     const error =
       diagnostics.fragmentShader.log === ''
@@ -131,15 +108,27 @@ const handleEditorValidation = () => {
     const prefix: string[] = error.prefix.split('\n');
 
     errs.pop();
+    let errorfromEffectAdjust = 0
     const markets = errs.map(err => {
+      if (material && material.isEffect) {
+        const type = editorState.activeMaterial.type;
+
+        const getVoidEffectLine = type === 'frag' ? `e${material.id}MainImage` : `e${material.id}MainUv`
+        const fullProg = type === 'frag' ? diagnostics.frag : diagnostics.vert
+        const progArr: string[] = fullProg.split('\n');
+        errorfromEffectAdjust = progArr.findIndex((el) => {
+         return el.includes(getVoidEffectLine)
+        })
+      }
+
       const re = new RegExp('[^0-9]+ ([0-9]+):([0-9]+):');
       const rl: any = err.match(re) || [];
 
       const message = err.split(':');
-      message[2] = (parseInt(message[2]) - prefix.length || '').toString();
+      message[2] = (parseInt(message[2]) - (material.isEffect ? errorfromEffectAdjust : prefix.length) || '').toString();
 
       const pos = parseInt(rl[1] || 1);
-      const lin = parseInt(rl[2] || 1) - prefix.length;
+      const lin = parseInt(rl[2] || 1) - (material.isEffect ? errorfromEffectAdjust : prefix.length);
       return {
         startLineNumber: lin,
         startColumn: pos,
@@ -206,7 +195,7 @@ const EditorEdit = () => {
       const program: any = editorState.activeMaterial.ref.program;
 
       if (isEditorReady && material) {
-        const name = getTypeForMaterial(program.name) + '_' + program.id;
+        const name = getNameForEditorMaterial(material, program)
 
         let textContent: string | undefined;
         if (type === 'frag') {
@@ -225,7 +214,7 @@ const EditorEdit = () => {
           );
           // TODO ADD OPTION
           console.log(material)
-          if (material.type !== 'ShaderMaterial' && material.type !== 'RawShaderMaterial') {
+          if (material.type !== 'ShaderMaterial' && material.type !== 'RawShaderMaterial' && !material.isEffect) {
             editorContext.editor.trigger('fold', 'editor.foldLevel1');
           }
         }

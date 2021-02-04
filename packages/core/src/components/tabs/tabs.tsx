@@ -1,5 +1,5 @@
 import React from 'react';
-import { getTypeForMaterial } from '../../helpers/shaderToMaterial';
+import { getNameForEditorMaterial } from '../../helpers/shaderToMaterial';
 import { editorState } from '../../state';
 import { editorContext } from '../../.';
 import styles from './tabs.module.css';
@@ -31,8 +31,9 @@ export const EditorTabs = () => {
       }`}
     >
       {Object.entries(snapshot.tabs).map(([key, value]: any) => {
+        const material = value.ref.material;
         const program = value.ref.program;
-        const name = getTypeForMaterial(program.name) + '_' + program.id;
+        const name = getNameForEditorMaterial(material, program)
 
         return (
           <div key={key}>

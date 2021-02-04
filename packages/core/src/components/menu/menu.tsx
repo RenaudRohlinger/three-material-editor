@@ -1,6 +1,6 @@
 import React, { useState, VFC } from 'react';
 import { editorContext } from '../../.';
-import { getTypeForMaterial } from '../../helpers/shaderToMaterial';
+import { getNameForEditorMaterial } from '../../helpers/shaderToMaterial';
 import { editorState } from '../../state';
 import { useProxy } from 'valtio';
 import { IoEyeOutline } from 'react-icons/io5';
@@ -31,9 +31,10 @@ interface LiMenuProps {
 
 export const LiMenu: VFC<LiMenuProps> = ({ type, program }) => {
   const snapshot = useProxy(editorState);
+  const material = program.material;
   const programGl = program.program;
 
-  const name = getTypeForMaterial(programGl.name) + '_' + programGl.id;
+  const name = getNameForEditorMaterial(material, programGl)
   const getModif = (type: string) => {
     if (!editorContext.monacoRef) {
       return;
@@ -101,7 +102,7 @@ export const SubMenu: VFC<SubMenuProps> = ({ program }) => {
   if (!programGl) {
     return null
   }
-  const name = getTypeForMaterial(programGl.name) + '_' + programGl.id;
+  const name = getNameForEditorMaterial(material, programGl)
 
   const hide = (e: any) => {
     e.stopPropagation();
@@ -110,6 +111,7 @@ export const SubMenu: VFC<SubMenuProps> = ({ program }) => {
     material.needsUpdate = true;
     editorState.triggerUpdate++;
   };
+  console.log(material)
   return programGl ? (
     <div key={snapshot.triggerUpdate} className={open ? styles.sbopen : ''}>
       <div
@@ -137,8 +139,8 @@ export const SubMenu: VFC<SubMenuProps> = ({ program }) => {
       </div>
       {open && (
         <ul>
-          <LiMenu program={program} type={'frag'} />
-          <LiMenu program={program} type={'vert'} />
+          {material.fragmentShader && <LiMenu program={program} type={'frag'} />}
+          {material.vertexShader && <LiMenu program={program} type={'vert'} />}
         </ul>
       )}
     </div>
@@ -189,10 +191,12 @@ export const BottomAction = () => {
       editorState.activeMaterial.ref.material.type ===
       ('ShaderMaterial' || 'RawShaderMaterial');
   }
+  const material: any = editorState.activeMaterial.ref.material;
+
   const cancelChange = () => {
     const type = editorState.activeMaterial.type;
     const program: any = editorState.activeMaterial.ref.program;
-    const name = getTypeForMaterial(program.name) + '_' + program.id;
+    const name = getNameForEditorMaterial(material, program)
 
     const oModel = editorContext.monacoRef.editor.getModel(
       `urn:${name}.${type}_orig`
@@ -261,7 +265,7 @@ export const BottomAction = () => {
           <VscCompareChanges /> Close diff
         </div>
       )}
-      {!isShader && !snapshot.diffMode && !snapshot.obcMode && (
+      {!isShader && !snapshot.diffMode && !snapshot.obcMode && !material.isEffect && (
         <div
           className={styles.menubaction}
           onClick={() => {
@@ -271,7 +275,7 @@ export const BottomAction = () => {
           <AiOutlineFunction /> onBeforeCompile
         </div>
       )}
-      {!isShader && snapshot.obcMode && (
+      {!isShader && snapshot.obcMode && !material.isEffect && (
         <div
           className={`${styles.menubaction} ${styles.closemenubaction}`}
           onClick={() => {

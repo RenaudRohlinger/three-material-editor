@@ -24,6 +24,19 @@ export const getTypeForMaterial = (material: string) => {
   return builtinType || (material === 'ShaderMaterial' ? 'shader' : 'unknown');
 };
 
+export const getNameForEditorMaterial = (material: any, programGl: any) => {
+  let name = ''
+
+  if (material.isEffect) {
+    name = material.name.replace('Effect', '').toLowerCase()
+  } else {
+    name = getTypeForMaterial(programGl.name)
+  }
+  name = name + '_' + programGl.id;
+
+  return name;
+};
+
 export const getShaderWithObc = (material: any) => {
   let builtinType = MATERIAL_TYPES_TO_SHADERS[material.type];
   const dummyShaderLib = ShaderLib[builtinType] ? Object.assign(ShaderLib[builtinType], material) : material

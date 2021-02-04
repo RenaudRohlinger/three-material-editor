@@ -4,7 +4,8 @@ import { editorState, editorContextState } from './state';
 
 const getMUIIndex = (muid: string) => muid === 'muidEditor';
 
-const _insertMaterialToEditor = (el: any, _isEffect?: boolean) => {
+const _insertMaterialToEditor = (element: any, isEffect?: boolean) => {
+  const el = isEffect ? element.screen : element
   if (!el.material.defines) {
     el.material.defines = {};
   }
@@ -13,12 +14,6 @@ const _insertMaterialToEditor = (el: any, _isEffect?: boolean) => {
     el.material.defines = Object.assign(el.material.defines || {}, {
       muidEditor: el.material.id
     });
-    if (!el.material.uniforms) {
-      el.material.uniforms = {}
-    }
-    el.material.uniforms.muidEditor = {
-      value: el.material.id
-    }
   }
   const muid = el.material.id;
   // prevent to derive loop
@@ -27,32 +22,9 @@ const _insertMaterialToEditor = (el: any, _isEffect?: boolean) => {
     !isAlreadyDerived[muid] &&
     el.material.defines
   ) {
-    console.log(el)
-    if (_isEffect) {
-      const { material } = addShaderDebugMaterial(el.material);
-      el.material = material;
-    }
-    el.material.uniforms.muidEditor = {
-      value: el.material.id
-    }
-    el.material.uniformsNeedUpdate = true
-
-    if (el.uniforms) {
-      el.material.fragmentShader = `#defines muiEditor ${el.material.id};\n` + el.material.fragmentShader
-      el.material.customProgramCacheKey = () => {
-        return Date.now();
-      };
-      el.uniforms.muidEditor = {
-        value: el.material.id
-      }
-      if (el.fsQuad._mesh) {
-        el.fsQuad._mesh.material = el.material;
-        el.fsQuad.material = el.material;
-        el.FullScreenQuad.material.set(el.material)
-      }
-      console.log(el)
-    }
-  
+    console.log(el, element)
+    const { material } = addShaderDebugMaterial(el.material);
+    el.material = material;
     // to check if multiple material users
     el.tmeDerived = true;
     el.material.numberOfMaterialsUser = 1
@@ -61,8 +33,21 @@ const _insertMaterialToEditor = (el: any, _isEffect?: boolean) => {
     el.material.customProgramCacheKey = () => {
       return Date.now();
     };
+    if (element.effects) {
+      let id = 0
+      for(const effect of element.effects) {
+        effect.id = id++
+        effect.isEffect = true
+      }
+      el.material.postprocess = element
+      element.recompile()
+    }
   }
 }
+
+// const _insertEffectToEditor = (el: any, improveMaterial?: boolean) => {
+// }
+
 const isAlreadyDerived: any[] = [];
 
 let hasInit = false
@@ -82,11 +67,16 @@ export const traverseMaterialsToProgram = (scene: Scene, gl: any) => {
   }
   if (editorContextState.composer) {
     editorContextState.composer.passes.forEach((pass: any) => {
-      if (pass.material) {
-        _insertMaterialToEditor(pass)
-      }
+      // if (pass.material) {
+      //   _insertMaterialToEditor(pass)
+      // }
+      // if (pass.effects) {
+      //   pass.effects.forEach(effect => {
+      //   _insertEffectToEditor(effect)
+      //   });
+      // }
       if (pass.screen) {
-        _insertMaterialToEditor(pass.screen, true)
+        _insertMaterialToEditor(pass, true)
       }
     })
   }
@@ -115,10 +105,21 @@ export const traverseMaterialsToProgram = (scene: Scene, gl: any) => {
     const muidDerived = cacheKeySplited[cacheKeySplited.findIndex(getMUIIndex) + 1];
     if (!isNaN(muidDerived) && isAlreadyDerived[muidDerived]) {
       isAlreadyDerived[muidDerived].program = program
-      programs.push({
-        material: isAlreadyDerived[muidDerived],
-        program: program,
-      });
+      if (isAlreadyDerived[muidDerived].postprocess) {
+        for(const effect of isAlreadyDerived[muidDerived].postprocess.effects) {
+          programs.push({
+            material: effect,
+            program: program,
+            effect: isAlreadyDerived[muidDerived].postprocess
+          });
+       };
+      } else {
+        programs.push({
+          material: isAlreadyDerived[muidDerived],
+          program: program,
+        });
+      }
+     
       
       if (program) {
         const programDiagnostic: any = program;
@@ -132,43 +133,32 @@ export const traverseMaterialsToProgram = (scene: Scene, gl: any) => {
             meshDebugger.quaternion.copy( isAlreadyDerived[muidDerived].mesh.quaternion );
             meshDebugger.updateMatrix()
           }
+
           editorState.diagnostics = programDiagnostic.diagnostics;
+        
+
+          if (editorState.diagnostics) {
+            const frag = gl.getContext().getShaderSource( programDiagnostic.fragmentShader );
+            const vert = gl.getContext().getShaderSource( programDiagnostic.fragmentShader );
+            editorState.diagnostics.frag = frag
+            editorState.diagnostics.vert = vert
+          }
           iError++;
         }
       }
    
     } else {
-      const uniforms = program.getUniforms().map
+      // const uniforms = program.getUniforms().map
      
-      if (uniforms.muidEditor) {
-       
-        programs.push({
-          program
-        });
-      }
+      // if (uniforms.muidEditor) {
+      //   programs.push({
+      //     program
+      //   });
+      // }
       // program.postprocessInitialized = true
       // const arr = program.cacheKey.split('},')
       // const frag = arr[0] + '// endsection \n}'
       // const vert = arr[1] + '// endsection \n}'
-      // // TODO SUPPORT POSTPROCESS
-      // const material:any = new ShaderMaterial({
-      //   // todo add uniforms with program.getUniforms
-      //   uniforms: program.getUniforms().map,
-      //   vertexShader: vert,
-      //   fragmentShader: frag,
-      // })
-      // material.customProgramCacheKey = () => {
-      //   return Date.now();
-      // };
-      // material.postprocess = true
-      // material.cacheKey = arr
-      // const mesh:any = new Mesh(undefined, material)
-      // mesh.debugMaterial = true
-      // scene.add(mesh)
-      // console.log(program.getUniforms())
-      // console.log(scene)
-      // program.destroy()
-     
     }
   });
   editorContextState.gl = gl;
