@@ -42,8 +42,7 @@
     "three": "*"
   },
   "dependencies": {
-    "@three-material-editor/core": "^0.1.3",
-    "react-three-fiber": "^5.3.18"
+    "@three-material-editor/core": "^0.1.3"
   },
   "devDependencies": {
     "@babel/core": "^7.12.10",
