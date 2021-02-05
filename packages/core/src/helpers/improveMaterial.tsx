@@ -10,24 +10,21 @@ export const addShaderDebugMaterial = (material: any) => {
 
   // const epoch = Date.now();
   // add a uniform time helper for animations
-  if (!newMaterial.uniforms.time) {
-    newMaterial.uniforms.time = {
-      value: 0.0
-    }
-  }
-  // if (newMaterial.uniforms) {
-  //   newMaterial.uniforms.muidEditor = {
-  //     value: newMaterial.id
+  // if (!newMaterial.uniforms.time) {
+  //   newMaterial.uniforms.time = {
+  //     value: 0.0
   //   }
   // }
-
 
   // wait the first compilation that will inject data into the material shaders
   setTimeout(() => {
     newMaterial.onBeforeCompile = function (shader: any) {
-
-      // sometimes we lose the uniforms ?
-      shader.uniforms = newMaterial.uniforms
+      console.log(newMaterial)
+      // troika break if we attribute uniforms
+      if (!newMaterial.isDerivedMaterial) {
+        // sometimes we lose the uniforms ?
+        shader.uniforms = newMaterial.uniforms
+      }
 
       if (shader.uniforms) {
         shader.uniforms.muidEditor = {
