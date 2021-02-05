@@ -62,6 +62,8 @@ const _insertNativePostProcessToEditor = (el: any, container: any) => {
     el.material = material;
     // to check if multiple material users
     el.tmeDerived = true;
+    el.material.postprocess = true
+
     container[muid] = el.material;
     container[muid].mesh = el;
   }
@@ -177,15 +179,10 @@ export const traverseMaterialsToProgram = (scene: Scene, gl: any) => {
   editorContextState.gl = gl;
   if (iError === 0) {
     meshDebugger.material.visible = false
-    // editorState.diagnostics = null
   }
   if (
     programs.length !== editorContextState.programs.length
   ) {
-    console.log(programs)
-    console.log(isAlreadyDerived)
-    console.log(nativePPisAlreadyDerived)
-
     editorState.programs = programs;
     editorContextState.programs = programs;
     editorState.triggerUpdate++;

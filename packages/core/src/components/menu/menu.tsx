@@ -107,11 +107,12 @@ export const SubMenu: VFC<SubMenuProps> = ({ program }) => {
   const hide = (e: any) => {
     e.stopPropagation();
     
+    // TODO PP LIBS renderToScreen or pass.enabled
     material.visible = !material.visible;
+    material.enabled = !material.enabled;
     material.needsUpdate = true;
     editorState.triggerUpdate++;
   };
-  console.log(material)
   return programGl ? (
     <div key={snapshot.triggerUpdate} className={open ? styles.sbopen : ''}>
       <div
@@ -131,11 +132,11 @@ export const SubMenu: VFC<SubMenuProps> = ({ program }) => {
             <small>{material.numberOfMaterialsUser}</small>
           </span>
         )}
-        {material && !material.visible ? (
+        {!material.isEffect && (material && !material.visible ? (
           <IoEyeOffOutline onClick={hide} className={styles.eye} />
         ) : (
           <IoEyeOutline onClick={hide} className={styles.eye} />
-        )}
+        ))}
       </div>
       {open && (
         <ul>

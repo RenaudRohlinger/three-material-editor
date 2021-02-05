@@ -99,7 +99,6 @@ export const MaterialEditor: FC = () => {
 
 const handleEditorValidation = () => {
   const diagnostics: any = editorState.diagnostics;
-  console.log(diagnostics)
   const material: any = editorState.activeMaterial.ref.material;
   if (diagnostics && diagnostics.fragmentShader && !diagnostics.runnable && editorContext.monacoRef) {
     const error =
@@ -122,6 +121,14 @@ const handleEditorValidation = () => {
         errorfromEffectAdjust = progArr.findIndex((el) => {
          return el.includes(getVoidEffectLine)
         })
+        const editorTxtArr: string[] = editorContext.editor.getModel().getValue().split('\n');
+
+        const getVoidEditorLine = type === 'frag' ? `mainImage` : `mainUv`
+
+        const adjustUniforms = editorTxtArr.findIndex((el) => {
+          return el.includes(getVoidEditorLine)
+        })
+        errorfromEffectAdjust -= adjustUniforms
       }
 
       const re = new RegExp('[^0-9]+ ([0-9]+):([0-9]+):');
@@ -216,7 +223,6 @@ const EditorEdit = () => {
             `urn:${name}.${type}_orig`
           );
           // TODO ADD OPTION
-          console.log(material)
           if (material.type !== 'ShaderMaterial' && material.type !== 'RawShaderMaterial' && !material.isEffect) {
             editorContext.editor.trigger('fold', 'editor.foldLevel1');
           }
@@ -233,7 +239,6 @@ const EditorEdit = () => {
     let textContent: string | undefined;
 
     if (type === 'frag') {
-      console.log(program)
       textContent = replaceShaderChunks(material ? material.fragmentShader : program.fragmentShader);
     } else if (type === 'vert') {
       textContent = replaceShaderChunks(material ? material.vertexShader : program.vertexShader);

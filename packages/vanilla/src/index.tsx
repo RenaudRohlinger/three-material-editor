@@ -75,7 +75,6 @@ if (process.env.NODE_ENV === 'production' || process.env.TME_PROD === 'SHOW') {
   };
 
   useEditorComposer = (composer: any) => {
-    console.log(composer)
     editorContext.composer = composer
   }
 
