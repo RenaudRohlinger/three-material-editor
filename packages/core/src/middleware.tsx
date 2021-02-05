@@ -14,6 +14,7 @@ const _insertMaterialToEditor = (element: any, isEffect?: boolean) => {
     el.material.defines = Object.assign(el.material.defines || {}, {
       muidEditor: el.material.id
     });
+   
   }
   const muid = el.material.id;
   // prevent to derive loop
@@ -22,17 +23,31 @@ const _insertMaterialToEditor = (element: any, isEffect?: boolean) => {
     !isAlreadyDerived[muid] &&
     el.material.defines
   ) {
-    console.log(el, element)
     const { material } = addShaderDebugMaterial(el.material);
     el.material = material;
+
+    if (el.fsQuad) {
+      el.material.uniformsNeedUpdate = true
+
+      if (el.material.uniforms) {
+        el.material.fragmentShader = `#defines muiEditor ${el.material.id};\n` + el.material.fragmentShader
+        el.material.uniforms.muidEditor = {
+          value: el.material.id
+        }
+        if (el.fsQuad._mesh) {
+          el.fsQuad._mesh.material = el.material;
+          el.fsQuad.material = el.material;
+        }
+        console.log(el)
+      }
+    }
+
     // to check if multiple material users
     el.tmeDerived = true;
     el.material.numberOfMaterialsUser = 1
     isAlreadyDerived[muid] = el.material;
     isAlreadyDerived[muid].mesh = el;
-    el.material.customProgramCacheKey = () => {
-      return Date.now();
-    };
+    // handle postprocess and react-postprocess libs
     if (element.effects) {
       let id = 0
       for(const effect of element.effects) {
@@ -75,6 +90,13 @@ export const traverseMaterialsToProgram = (scene: Scene, gl: any) => {
       //   _insertEffectToEditor(effect)
       //   });
       // }
+
+      // check if is basic three shaderpass
+      if (pass.fsQuad) {
+        _insertMaterialToEditor(pass)
+      }
+
+      // handle postprocess and react-postprocess libs
       if (pass.screen) {
         _insertMaterialToEditor(pass, true)
       }
@@ -148,6 +170,14 @@ export const traverseMaterialsToProgram = (scene: Scene, gl: any) => {
       }
    
     } else {
+      const uniforms = program.getUniforms().map
+     
+      if (uniforms.muidEditor) {
+       
+        programs.push({
+          program
+        });
+      }
       // const uniforms = program.getUniforms().map
      
       // if (uniforms.muidEditor) {

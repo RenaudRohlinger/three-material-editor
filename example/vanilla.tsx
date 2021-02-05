@@ -1,9 +1,9 @@
 import * as THREE from 'three'
 import { MaterialEditor, useEditorComposer } from '@three-material-editor/vanilla';
-// import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
-// import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
-// import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js';
-import { BloomEffect, EffectComposer, EffectPass, RenderPass } from "postprocessing";
+import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
+import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js';
+// import { BloomEffect, EffectComposer, EffectPass, RenderPass, GlitchEffect } from "postprocessing";
 
 import { RGBShiftShader } from 'three/examples/jsm/shaders/RGBShiftShader.js';
 import { DotScreenShader } from 'three/examples/jsm/shaders/DotScreenShader.js';
@@ -29,17 +29,18 @@ MaterialEditor(scene, renderer, {
 
 let composer = new EffectComposer( renderer );
 useEditorComposer(composer)
-// composer.addPass( new RenderPass( scene, camera ) );
-composer.addPass(new RenderPass(scene, camera));
-composer.addPass(new EffectPass(camera, new BloomEffect()));
+composer.addPass( new RenderPass( scene, camera ) );
+// composer.addPass(new RenderPass(scene, camera));
+// composer.addPass(new EffectPass(camera, new BloomEffect()));
+// composer.addPass(new EffectPass(camera, new GlitchEffect()));
 
-// const effect1 = new ShaderPass( DotScreenShader );
-// effect1.uniforms[ 'scale' ].value = 4;
-// composer.addPass( effect1 );
+const effect1 = new ShaderPass( DotScreenShader );
+effect1.uniforms[ 'scale' ].value = 4;
+composer.addPass( effect1 );
 
-// const effect2 = new ShaderPass( RGBShiftShader );
-// effect2.uniforms[ 'amount' ].value = 0.0015;
-// composer.addPass( effect2 );
+const effect2 = new ShaderPass( RGBShiftShader );
+effect2.uniforms[ 'amount' ].value = 0.0015;
+composer.addPass( effect2 );
 
 useEditorComposer(composer)
 

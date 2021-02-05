@@ -47,7 +47,7 @@ export const updateActiveShader = (value: any, type: string) => {
         shader.fragmentShader = type === 'frag' ? value : material.fragmentShader;
       };
     }
-
+ 
 
     checkIfModifications();
     // if (type === 'vert') {
@@ -61,6 +61,9 @@ export const updateActiveShader = (value: any, type: string) => {
 
     material.needsUpdate = true;
     editorState.triggerUpdate++;
+    material.customProgramCacheKey = () => {
+      return editorState.triggerUpdate
+    };
   }
 };
 
