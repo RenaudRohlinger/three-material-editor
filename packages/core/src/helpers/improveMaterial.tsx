@@ -19,7 +19,6 @@ export const addShaderDebugMaterial = (material: any) => {
   // wait the first compilation that will inject data into the material shaders
   setTimeout(() => {
     newMaterial.onBeforeCompile = function (shader: any) {
-      console.log(newMaterial)
       // troika break if we attribute uniforms
       if (!newMaterial.isDerivedMaterial) {
         // sometimes we lose the uniforms ?
