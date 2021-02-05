@@ -4,12 +4,18 @@ import { editorState, editorContextState } from './state';
 
 const getMUIIndex = (muid: string) => muid === 'muidEditor';
 
-const _insertMaterialToEditor = (element: any, isEffect?: boolean) => {
+const isAlreadyDerived: any = {};
+const nativePPisAlreadyDerived: any = [];
+
+let hasInit = false
+
+
+const _insertMaterialToEditor = (element: any, container: any, isEffect?: boolean) => {
   const el = isEffect ? element.screen : element
   if (!el.material.defines) {
     el.material.defines = {};
   }
-  
+
   if (!el.material.defines.muidEditor) {
     el.material.defines = Object.assign(el.material.defines || {}, {
       muidEditor: el.material.id
@@ -20,33 +26,17 @@ const _insertMaterialToEditor = (element: any, isEffect?: boolean) => {
   // prevent to derive loop
   if (
     muid &&
-    !isAlreadyDerived[muid] &&
+    !container[muid] &&
     el.material.defines
   ) {
     const { material } = addShaderDebugMaterial(el.material);
     el.material = material;
 
-    if (el.fsQuad) {
-      el.material.uniformsNeedUpdate = true
-
-      if (el.material.uniforms) {
-        el.material.fragmentShader = `#defines muiEditor ${el.material.id};\n` + el.material.fragmentShader
-        el.material.uniforms.muidEditor = {
-          value: el.material.id
-        }
-        if (el.fsQuad._mesh) {
-          el.fsQuad._mesh.material = el.material;
-          el.fsQuad.material = el.material;
-        }
-        console.log(el)
-      }
-    }
-
     // to check if multiple material users
     el.tmeDerived = true;
     el.material.numberOfMaterialsUser = 1
-    isAlreadyDerived[muid] = el.material;
-    isAlreadyDerived[muid].mesh = el;
+    container[muid] = el.material;
+    container[muid].mesh = el;
     // handle postprocess and react-postprocess libs
     if (element.effects) {
       let id = 0
@@ -60,12 +50,22 @@ const _insertMaterialToEditor = (element: any, isEffect?: boolean) => {
   }
 }
 
-// const _insertEffectToEditor = (el: any, improveMaterial?: boolean) => {
-// }
-
-const isAlreadyDerived: any[] = [];
-
-let hasInit = false
+const _insertNativePostProcessToEditor = (el: any, container: any) => {
+  const muid = el.material.id;
+  // prevent to derive loop
+  if (
+    muid &&
+    !container[muid]
+  ) {
+    
+    const { material } = addShaderDebugMaterial(el.material);
+    el.material = material;
+    // to check if multiple material users
+    el.tmeDerived = true;
+    container[muid] = el.material;
+    container[muid].mesh = el;
+  }
+}
 
 const meshDebugger:any = new Mesh(undefined, new MeshBasicMaterial({
   color: new Color(0xff0000),
@@ -82,23 +82,14 @@ export const traverseMaterialsToProgram = (scene: Scene, gl: any) => {
   }
   if (editorContextState.composer) {
     editorContextState.composer.passes.forEach((pass: any) => {
-      // if (pass.material) {
-      //   _insertMaterialToEditor(pass)
-      // }
-      // if (pass.effects) {
-      //   pass.effects.forEach(effect => {
-      //   _insertEffectToEditor(effect)
-      //   });
-      // }
-
       // check if is basic three shaderpass
       if (pass.fsQuad) {
-        _insertMaterialToEditor(pass)
+        _insertNativePostProcessToEditor(pass, nativePPisAlreadyDerived)
       }
 
       // handle postprocess and react-postprocess libs
       if (pass.screen) {
-        _insertMaterialToEditor(pass, true)
+        _insertMaterialToEditor(pass, isAlreadyDerived, true)
       }
     })
   }
@@ -110,7 +101,7 @@ export const traverseMaterialsToProgram = (scene: Scene, gl: any) => {
       if (el.debugMaterial) {
         return
       }
-      _insertMaterialToEditor(el)
+      _insertMaterialToEditor(el, isAlreadyDerived)
       // inc counter if the mesh also use the material
       if (el.material.defines && !el.tmeDerived) {
         el.tmeDerived = true;
@@ -125,6 +116,7 @@ export const traverseMaterialsToProgram = (scene: Scene, gl: any) => {
     const cacheKeySplited = program.cacheKey.split(',');
     // convert and supply all mesh associated to this material to a debugger material
     const muidDerived = cacheKeySplited[cacheKeySplited.findIndex(getMUIIndex) + 1];
+
     if (!isNaN(muidDerived) && isAlreadyDerived[muidDerived]) {
       isAlreadyDerived[muidDerived].program = program
       if (isAlreadyDerived[muidDerived].postprocess) {
@@ -170,25 +162,16 @@ export const traverseMaterialsToProgram = (scene: Scene, gl: any) => {
       }
    
     } else {
-      const uniforms = program.getUniforms().map
-     
-      if (uniforms.muidEditor) {
-       
-        programs.push({
-          program
+      
+      const result = nativePPisAlreadyDerived.filter((e:any) => e.fragmentShader.includes(cacheKeySplited[0]))
+      if (result.length > 0) {
+        result.forEach((pickedMaterial: any) => {
+          programs.push({
+            material: pickedMaterial,
+            program: program
+          });
         });
       }
-      // const uniforms = program.getUniforms().map
-     
-      // if (uniforms.muidEditor) {
-      //   programs.push({
-      //     program
-      //   });
-      // }
-      // program.postprocessInitialized = true
-      // const arr = program.cacheKey.split('},')
-      // const frag = arr[0] + '// endsection \n}'
-      // const vert = arr[1] + '// endsection \n}'
     }
   });
   editorContextState.gl = gl;
@@ -201,6 +184,7 @@ export const traverseMaterialsToProgram = (scene: Scene, gl: any) => {
   ) {
     console.log(programs)
     console.log(isAlreadyDerived)
+    console.log(nativePPisAlreadyDerived)
 
     editorState.programs = programs;
     editorContextState.programs = programs;

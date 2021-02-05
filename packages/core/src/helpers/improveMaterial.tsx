@@ -15,11 +15,11 @@ export const addShaderDebugMaterial = (material: any) => {
       value: 0.0
     }
   }
-  if (newMaterial.uniforms) {
-    newMaterial.uniforms.muidEditor = {
-      value: newMaterial.id
-    }
-  }
+  // if (newMaterial.uniforms) {
+  //   newMaterial.uniforms.muidEditor = {
+  //     value: newMaterial.id
+  //   }
+  // }
 
 
   // wait the first compilation that will inject data into the material shaders
@@ -29,6 +29,11 @@ export const addShaderDebugMaterial = (material: any) => {
       // sometimes we lose the uniforms ?
       shader.uniforms = newMaterial.uniforms
 
+      if (shader.uniforms) {
+        shader.uniforms.muidEditor = {
+          value: newMaterial.id
+        }
+      }
       // initialize with the oBC of the material 
       // @ts-ignore
       if (this.editorOnBeforeCompile) {
