@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useFrame, useThree } from 'react-three-fiber';
 import {
   EditorDom,
   editorState,
+  editorContext,
   materialsToProgram,
 } from '@three-material-editor/core';
 import { Html } from './html';
+
 
 class MaterialEditorOptions {
   overrideRaf?: boolean;
@@ -18,8 +20,14 @@ const optionsDefault: MaterialEditorOptions = {
   fullScreen: true,
 };
 
+
+
 export let Logic = () => null;
-export let MaterialEditor = (_options?: MaterialEditorOptions) => {};
+export let MaterialEditor = (
+  _options?: MaterialEditorOptions
+) => {};
+
+export let useEditorComposer = () => {};
 
 if (process.env.NODE_ENV === 'production' || process.env.TME_PROD === 'SHOW') {
 } else {
@@ -32,6 +40,17 @@ if (process.env.NODE_ENV === 'production' || process.env.TME_PROD === 'SHOW') {
 
     return null;
   };
+  useEditorComposer = () => {
+    const onRefChange = useCallback(node => {
+      if (node === null) { 
+        editorContext.composer = null
+      } else {
+        editorContext.composer = node
+      }
+    }, []);
+    
+    return onRefChange
+  }
 
   MaterialEditor = (_options?: MaterialEditorOptions) => {
     const options = Object.assign(optionsDefault, _options);

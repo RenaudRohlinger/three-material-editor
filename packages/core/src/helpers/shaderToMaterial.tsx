@@ -24,9 +24,22 @@ export const getTypeForMaterial = (material: string) => {
   return builtinType || (material === 'ShaderMaterial' ? 'shader' : 'unknown');
 };
 
+export const getNameForEditorMaterial = (material: any, programGl: any) => {
+  let name = ''
+
+  if (material.isEffect) {
+    name = material.name.replace('Effect', '').toLowerCase()
+  } else {
+    name = getTypeForMaterial(programGl.name)
+  }
+  name = name + '_' + programGl.id;
+
+  return name;
+};
+
 export const getShaderWithObc = (material: any) => {
   let builtinType = MATERIAL_TYPES_TO_SHADERS[material.type];
-  const dummyShaderLib = Object.assign(ShaderLib[builtinType], material);
+  const dummyShaderLib = ShaderLib[builtinType] ? Object.assign(ShaderLib[builtinType], material) : material
   // TODO DEBUG UNIFORMS OF CUSTOM MATERIALS SHADER IS NOT SHOWING
   if (!material.obcAdded && material) {
     material.obcAdded = true;
@@ -35,7 +48,6 @@ export const getShaderWithObc = (material: any) => {
       dummyShaderLib
     );
   }
-  console.log(dummyShaderLib)
 
   return dummyShaderLib;
 };

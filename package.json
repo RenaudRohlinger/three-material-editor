@@ -18,7 +18,8 @@
     "rollup-plugin-postcss": "^4.0.0",
     "rollup-plugin-typescript2": "^0.29.0",
     "tsdx": "^0.14.1",
-    "typescript": "^3.9.7"
+    "typescript": "^3.9.7",
+    "size-limit": "^4.9.1"
   },
   "workspaces": [
     "packages/*"
@@ -60,8 +61,5 @@
     "start:app": "yarn run build && yarn --cwd example && yarn --cwd example start",
     "start:vanilla": "yarn run build && yarn --cwd example && yarn --cwd example vanilla",
     "release": "lerna publish"
-  },
-  "dependencies": {
-    "size-limit": "^4.9.1"
   }
 }
