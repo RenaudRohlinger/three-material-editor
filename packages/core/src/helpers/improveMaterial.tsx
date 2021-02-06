@@ -17,19 +17,20 @@ export const addShaderDebugMaterial = (material: any) => {
   // }
 
   // wait the first compilation that will inject data into the material shaders
-  setTimeout(() => {
+  // setTimeout(() => {
     newMaterial.onBeforeCompile = function (shader: any) {
       // troika break if we attribute uniforms
-      if (!newMaterial.isDerivedMaterial) {
+      // if (!newMaterial.isDerivedMaterial) {
         // sometimes we lose the uniforms ?
-        shader.uniforms = newMaterial.uniforms
-      }
+        // TODO FIX ALSO POUR SSR + ROUTE
+        shader.uniforms = Object.assign(shader.uniforms, newMaterial.uniforms);
+      // }
 
-      if (shader.uniforms) {
-        shader.uniforms.muidEditor = {
-          value: newMaterial.id
-        }
-      }
+      // if (shader.uniforms) {
+      //   shader.uniforms.muidEditor = {
+      //     value: newMaterial.id
+      //   }
+      // }
       // initialize with the oBC of the material 
       // @ts-ignore
       if (this.editorOnBeforeCompile) {
@@ -51,7 +52,7 @@ export const addShaderDebugMaterial = (material: any) => {
         // };
       }
     };
-  }, 0);
+  // }, 0);
   return {
     debug: null,
     material: newMaterial,

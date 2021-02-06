@@ -72,10 +72,10 @@ const App = () => {
           <MeshDistortMaterial factor={2} color={'black'} />
         </Sphere>
         <Environment preset={'studio'} />
-        {/* <EffectComposer ref={useEditorComposer()}>
+        <EffectComposer ref={useEditorComposer()}>
           <Noise opacity={0.4} />
           <Vignette eskil={false} offset={0.1} darkness={1.1} />
-        </EffectComposer> */}
+        </EffectComposer>
 
       </React.Suspense>
 
