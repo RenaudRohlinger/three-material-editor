@@ -1,6 +1,6 @@
 {
   "name": "@three-material-editor/react",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "description": "Official React library for @three-material-editor",
   "author": "Renaud ROHLINGER",
   "license": "MIT",
@@ -42,7 +42,7 @@
     "three": "*"
   },
   "dependencies": {
-    "@three-material-editor/core": "^0.2.5"
+    "@three-material-editor/core": "^0.2.6"
   },
   "devDependencies": {
     "@babel/core": "^7.12.10",
