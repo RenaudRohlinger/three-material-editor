@@ -113,7 +113,7 @@ export const SubMenu: VFC<SubMenuProps> = ({ program }) => {
     material.needsUpdate = true;
     editorState.triggerUpdate++;
   };
-  return programGl ? (
+  return programGl && material ? (
     <div key={snapshot.triggerUpdate} className={open ? styles.sbopen : ''}>
       <div
         className={`${styles.hmenu} ${
@@ -230,7 +230,7 @@ export const BottomAction = () => {
     editorState.triggerUpdate++;
   };
 
-  return snapshot.activeMaterial && snapshot.activeMaterial.isModif && snapshot.showEditor ? (
+  return snapshot.activeMaterial && snapshot.activeMaterial.isModif && snapshot.showEditor && material ? (
     <div key={snapshot.triggerUpdate} className={styles.menub}>
       {snapshot.obcMode && (
         <div

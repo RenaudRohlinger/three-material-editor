@@ -1,33 +1,57 @@
-three-material-editor
-========
-[![NPM Package][npm]][npm-url] [![Build Size][build-size]][build-size-url] [![NPM Downloads][npm-downloads]][npmtrends-url] 
-----
+# three-material-editor
+
+## [![NPM Package][npm]][npm-url] [![Build Size][build-size]][build-size-url] [![NPM Downloads][npm-downloads]][npmtrends-url]
+
+A GLSL editor for Threejs materials. Automatically detect the WebGL programs and provide live edit for the shaders.
+The editor can generates an onBeforeCompile function and possess a diff editor to analyze your changes.
+
 ![image](https://user-images.githubusercontent.com/15867665/106269312-b2778000-626f-11eb-906f-6def286e6c52.png)
 
-Three Material Editor is a GLSL editor for Threejs scene. It will automatically detect the WebGL programs and provide live edit of your shaders.
-The editor can generates an onBeforeCompile function and a possess a diff editor to analyze your changes.
-Simply call the editor in your init function then everything will be handle automatically.
+#### Features :
 
-- [`@three-material-editor/core`](https://github.com/RenaudRohlinger/three-material-editor/tree/main/packages/core) - Code editor
-- [`@three-material-editor/react`](https://github.com/RenaudRohlinger/three-material-editor/tree/main/packages/react) - React wrapper
-- [`@three-material-editor/vanilla`](https://github.com/RenaudRohlinger/three-material-editor/tree/main/packages/vanilla) - Vanilla wrapper
+- Generate onBeforeCompile function based on your modifications
+- Diff viewer
+- Handle and log errors
+- The fullscreen mode will embed your canvas in a popup automatically
+- Manage share materials
+- Handle dynamic scene and meshes
+- Automatically removed in production based on env variable
 
----
+#### Support :
+
+- Support all types of postprocess (three/example/postprocess, postprocess, react-postprocess)
+- Support material with onBeforeCompile
+- Support troika derive material and troika-3d-text
+- React and Vanilla builds
+- Support SSR framework such as NextJS
+
+* [`@three-material-editor/core`](https://github.com/RenaudRohlinger/three-material-editor/tree/main/packages/core) - Code editor
 
 ## Quick start - Vanilla
+
+- [`@three-material-editor/react`](https://github.com/RenaudRohlinger/three-material-editor/tree/main/packages/react) - React wrapper
+
+- [`@three-material-editor/vanilla`](https://github.com/RenaudRohlinger/three-material-editor/tree/main/packages/vanilla) - Vanilla wrapper
 
 ```sh
 yarn add -D @three-material-editor/vanilla
 ```
 
 ```jsx
-import { MaterialEditor } from '@three-material-editor/vanilla';
+import {
+  MaterialEditor,
+  useEditorComposer,
+} from '@three-material-editor/vanilla';
 
 // add the editor in the init function of your app
 MaterialEditor(scene, renderer, {
   camera: camera, // handle responsize dpr for fullscreen
 });
+
+let composer = new EffectComposer(renderer);
+useEditorComposer(composer);
 ```
+
 Demo : [codesandbox](https://codesandbox.io/s/three-material-editorvanilla-l55jn)
 
 [`See more - @three-material-editor/vanilla`](https://github.com/RenaudRohlinger/three-material-editor/tree/main/packages/vanilla)
@@ -39,12 +63,17 @@ yarn add -D @three-material-editor/react
 ```
 
 ```jsx
-import { MaterialEditor } from '@three-material-editor/react';
+import {
+  MaterialEditor,
+  useEditorComposer,
+} from '@three-material-editor/react';
 
 <Canvas>
   <MaterialEditor />
+  <EffectComposer ref={useEditorComposer()}>...</EffectComposer>
 </Canvas>;
 ```
+
 Demo : [codesandbox](https://codesandbox.io/s/three-material-editorreact-z59h4)
 
 [`See more - @three-material-editor/react`](https://github.com/RenaudRohlinger/three-material-editor/tree/main/packages/react)
