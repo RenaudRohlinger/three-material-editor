@@ -39,14 +39,16 @@ export const getNameForEditorMaterial = (material: any, programGl: any) => {
 
 export const getShaderWithObc = (material: any) => {
   let builtinType = MATERIAL_TYPES_TO_SHADERS[material.type];
-  const dummyShaderLib = ShaderLib[builtinType] ? Object.assign(ShaderLib[builtinType], material) : material
+  const dummyShaderLib = Object.assign({}, ShaderLib[builtinType] ? ShaderLib[builtinType] : material)
   // TODO DEBUG UNIFORMS OF CUSTOM MATERIALS SHADER IS NOT SHOWING
-  if (!material.obcAdded && material) {
+  if (!dummyShaderLib.obcAdded && !material.obcAdded) {
     material.obcAdded = true;
+    dummyShaderLib.obcAdded = true;
     material.onBeforeCompile.call(
       material,
       dummyShaderLib
     );
+    dummyShaderLib.uniforms = Object.assign(dummyShaderLib.uniforms, material.uniforms);
   }
 
   return dummyShaderLib;

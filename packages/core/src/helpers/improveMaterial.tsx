@@ -4,7 +4,6 @@ import {
 
 export const addShaderDebugMaterial = (material: any) => {
   let newMaterial = material;
-
   const shader = getShaderWithObc(newMaterial)
   newMaterial = Object.assign(newMaterial, shader);
 
@@ -17,44 +16,36 @@ export const addShaderDebugMaterial = (material: any) => {
   // }
 
   // wait the first compilation that will inject data into the material shaders
-  // setTimeout(() => {
+  setTimeout(() => {
     newMaterial.onBeforeCompile = function (shader: any) {
       // troika break if we attribute uniforms
-      // if (!newMaterial.isDerivedMaterial) {
         // sometimes we lose the uniforms ?
-        if (!shader.editorAttributeUniforms) {
-          shader.editorAttributeUniforms = true
+        // if (!newMaterial.editorAttributeUniforms) {
+        //   newMaterial.editorAttributeUniforms = true
           shader.uniforms = Object.assign(shader.uniforms, newMaterial.uniforms);
-        }
-      // }
-
-      // if (shader.uniforms) {
-      //   shader.uniforms.muidEditor = {
-      //     value: newMaterial.id
-      //   }
-      // }
-      // initialize with the oBC of the material 
+        // }
       // @ts-ignore
       if (this.editorOnBeforeCompile) {
         // @ts-ignore
         this.editorOnBeforeCompile.call(this, shader)
-      } else {
-        // override with the editor
-        shader.vertexShader = shader.vertexShader;
-        shader.fragmentShader = shader.fragmentShader;
       }
+      // } else {
+        // override with the editor
+      //   shader.vertexShader = shader.vertexShader;
+      //   shader.fragmentShader = shader.fragmentShader;
+      // }
   
       // if time detected in obc or material, automatically update the value
-      if (shader.uniforms.time) {
+      // if (shader.uniforms.time) {
         // shader.uniforms.time = {
         //   // @ts-ignore
         //   get value() {
         //     return (Date.now() - epoch) / 1000;
         //   },
         // };
-      }
+      // }
     };
-  // }, 0);
+  }, 0);
   return {
     debug: null,
     material: newMaterial,
