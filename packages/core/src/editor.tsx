@@ -112,7 +112,7 @@ const handleEditorValidation = () => {
     errs.pop();
     let errorfromEffectAdjust = 0
     const markets = errs.map(err => {
-      if (material && material.isEffect) {
+      if (material && material.isEffect && editorContext.editor) {
         const type = editorState.activeMaterial.type;
 
         const getVoidEffectLine = type === 'frag' ? `e${material.id}MainImage` : `e${material.id}MainUv`

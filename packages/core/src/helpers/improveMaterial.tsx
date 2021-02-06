@@ -22,8 +22,10 @@ export const addShaderDebugMaterial = (material: any) => {
       // troika break if we attribute uniforms
       // if (!newMaterial.isDerivedMaterial) {
         // sometimes we lose the uniforms ?
-        // TODO FIX ALSO POUR SSR + ROUTE
-        shader.uniforms = Object.assign(shader.uniforms, newMaterial.uniforms);
+        if (!shader.editorAttributeUniforms) {
+          shader.editorAttributeUniforms = true
+          shader.uniforms = Object.assign(shader.uniforms, newMaterial.uniforms);
+        }
       // }
 
       // if (shader.uniforms) {
