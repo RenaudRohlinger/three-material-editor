@@ -64,7 +64,6 @@ export const LiMenu: VFC<LiMenuProps> = ({ type, program }) => {
       }`}
       onClick={() => {
         const value = {
-          ref: program,
           type,
           open: true,
           isModif: false,
@@ -72,7 +71,10 @@ export const LiMenu: VFC<LiMenuProps> = ({ type, program }) => {
         };
         editorState.tabs[`urn:${name}.${type}`] = value;
         editorState.activeMaterial = value;
+
         editorContext.activeMaterial = value;
+        editorContext.activeMaterial.ref = program
+
         editorState.showEditor = true;
         editorState.diffMode = false;
         editorState.obcMode = false;
@@ -132,7 +134,7 @@ export const SubMenu: VFC<SubMenuProps> = ({ program }) => {
             <small>{material.numberOfMaterialsUser}</small>
           </span>
         )}
-        {!material.isEffect && (material && !material.visible ? (
+        {(material && !material.visible && !material.isEffect ? (
           <IoEyeOffOutline onClick={hide} className={styles.eye} />
         ) : (
           <IoEyeOutline onClick={hide} className={styles.eye} />
@@ -265,7 +267,7 @@ export const BottomAction = () => {
           <VscCompareChanges /> Close diff
         </div>
       )}
-      {!isShader && !snapshot.diffMode && !snapshot.obcMode && !material.isEffect && (
+      {!isShader && !snapshot.diffMode && !snapshot.obcMode && material && !material.isEffect && (
         <div
           className={styles.menubaction}
           onClick={() => {
@@ -275,7 +277,7 @@ export const BottomAction = () => {
           <AiOutlineFunction /> onBeforeCompile
         </div>
       )}
-      {!isShader && snapshot.obcMode && !material.isEffect && (
+      {!isShader && snapshot.obcMode && material && !material.isEffect && (
         <div
           className={`${styles.menubaction} ${styles.closemenubaction}`}
           onClick={() => {
