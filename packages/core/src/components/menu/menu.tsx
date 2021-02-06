@@ -2,7 +2,7 @@ import React, { useState, VFC } from 'react';
 import { editorContext } from '../../.';
 import { getNameForEditorMaterial } from '../../helpers/shaderToMaterial';
 import { editorState } from '../../state';
-import { useProxy } from 'valtio';
+import { ref, useProxy } from 'valtio';
 import { IoEyeOutline } from 'react-icons/io5';
 import { IoEyeOffOutline } from 'react-icons/io5';
 import { IoImageOutline } from 'react-icons/io5';
@@ -66,15 +66,14 @@ export const LiMenu: VFC<LiMenuProps> = ({ type, program }) => {
         const value = {
           type,
           open: true,
+          ref: ref(program),
           isModif: false,
           model: `urn:${name}.${type}`,
         };
         editorState.tabs[`urn:${name}.${type}`] = value;
         editorState.activeMaterial = value;
-
         editorContext.activeMaterial = value;
-        editorContext.activeMaterial.ref = program
-
+        
         editorState.showEditor = true;
         editorState.diffMode = false;
         editorState.obcMode = false;
