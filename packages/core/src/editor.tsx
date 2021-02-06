@@ -99,7 +99,7 @@ export const MaterialEditor: FC = () => {
 
 const handleEditorValidation = () => {
   const diagnostics: any = editorState.diagnostics;
-  const material: any = editorState.activeMaterial.ref.material;
+  const material: any = editorContext.activeMaterial.ref.material;
   if (diagnostics && diagnostics.fragmentShader && !diagnostics.runnable && editorContext.monacoRef) {
     const error =
       diagnostics.fragmentShader.log === ''
@@ -199,10 +199,10 @@ const EditorEdit = () => {
 
   useEffect(() => {
     // at initialization of any new active material set the 2 models
-    if (editorState.activeMaterial && editorState.activeMaterial.ref && editorContext.monacoRef) {
+    if (editorState.activeMaterial && editorContext.activeMaterial.ref && editorContext.monacoRef) {
       const type = editorState.activeMaterial.type;
-      const material: any = editorState.activeMaterial.ref.material;
-      const program: any = editorState.activeMaterial.ref.program;
+      const material: any = editorContext.activeMaterial.ref.material;
+      const program: any = editorContext.activeMaterial.ref.program;
 
       if (isEditorReady && material) {
         const name = getNameForEditorMaterial(material, program)
@@ -234,8 +234,8 @@ const EditorEdit = () => {
   const getText = () => {
     const type = editorState.activeMaterial.type;
     const model = editorState.activeMaterial.model;
-    const program = editorState.activeMaterial.ref.program;
-    const material: any = editorState.activeMaterial.ref.material;
+    const program = editorContext.activeMaterial.ref.program;
+    const material: any = editorContext.activeMaterial.ref.material;
     let textContent: string | undefined;
 
     if (type === 'frag') {

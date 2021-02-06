@@ -15,7 +15,6 @@ export interface State {
   diagnostics: any | null;
   composer: any | null;
   materials: Material[];
-  programs: object[];
   tabs: any;
   activeMaterial: {
     type: string;
@@ -24,11 +23,6 @@ export interface State {
     isModif: boolean;
     model?: null | string;
     cachedModel?: null | string;
-    ref: {
-      material: Material | null;
-      program: any;
-      effect: any;
-    };
   };
 }
 
@@ -46,7 +40,6 @@ export const editorState = proxy<State>({
   materials: [],
   diagnostics: {},
   tabs: {},
-  programs: [],
   activeMaterial: {
     type: '',
     open: false,
@@ -56,11 +49,6 @@ export const editorState = proxy<State>({
     cache: {
       vert: '',
       frag: '',
-    },
-    ref: {
-      material: null,
-      program: null,
-      effect: null,
     },
   },
 });
@@ -72,6 +60,11 @@ interface Map {
 
 export const editorContextState: Map = {
   materials: {},
+  activeMaterial: {
+    ref: {
+      
+    }
+  },
   programs: [],
   editorWidth: 520,
   editorMinusHeight: 0,

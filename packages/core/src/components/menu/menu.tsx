@@ -185,18 +185,17 @@ export const BottomAction = () => {
     return null;
   }
   if (
-    editorState.activeMaterial.ref &&
-    editorState.activeMaterial.ref.material
+    editorContext.activeMaterial.ref &&
+    editorContext.activeMaterial.ref.material
   ) {
-    isShader =
-      editorState.activeMaterial.ref.material.type ===
+    isShader = editorContext.activeMaterial.ref.material.type ===
       ('ShaderMaterial' || 'RawShaderMaterial');
   }
-  const material: any = editorState.activeMaterial.ref.material;
+  const material: any = editorContext.activeMaterial.ref.material;
 
   const cancelChange = () => {
-    const type = editorState.activeMaterial.type;
-    const program: any = editorState.activeMaterial.ref.program;
+    const type = editorContext.activeMaterial.type;
+    const program: any = editorContext.activeMaterial.ref.program;
     const name = getNameForEditorMaterial(material, program)
 
     const oModel = editorContext.monacoRef.editor.getModel(
