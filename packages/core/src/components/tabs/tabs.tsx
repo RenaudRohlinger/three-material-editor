@@ -31,8 +31,8 @@ export const EditorTabs = () => {
       }`}
     >
       {Object.entries(snapshot.tabs).map(([key, value]: any) => {
-        const material = value.ref.material;
-        const program = value.ref.program;
+        const material = editorContext.activeMaterial.ref.material;
+        const program = editorContext.activeMaterial.ref.program;
         const name = getNameForEditorMaterial(material, program)
 
         return (
