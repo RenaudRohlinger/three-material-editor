@@ -121,14 +121,15 @@ const handleEditorValidation = () => {
         errorfromEffectAdjust = progArr.findIndex((el) => {
          return el.includes(getVoidEffectLine)
         })
-        const editorTxtArr: string[] = editorContext.editor.getModel().getValue().split('\n');
-
-        const getVoidEditorLine = type === 'frag' ? `mainImage` : `mainUv`
-
-        const adjustUniforms = editorTxtArr.findIndex((el) => {
-          return el.includes(getVoidEditorLine)
-        })
-        errorfromEffectAdjust -= adjustUniforms
+        const model = editorContext.editor.getModel()
+        if (model) {
+          const editorTxtArr: string[] = model.getValue().split('\n');
+          const getVoidEditorLine = type === 'frag' ? `mainImage` : `mainUv`
+          const adjustUniforms = editorTxtArr.findIndex((el) => {
+            return el.includes(getVoidEditorLine)
+          })
+          errorfromEffectAdjust -= adjustUniforms
+        }
       }
 
       const re = new RegExp('[^0-9]+ ([0-9]+):([0-9]+):');
@@ -243,9 +244,14 @@ const EditorEdit = () => {
     } else if (type === 'vert') {
       textContent = replaceShaderChunks(material ? material.vertexShader : program.vertexShader);
     }
-    if (model === 'urn:obc_result') {
-      return generateOBc(textContent);
+    if (model === 'urn:obc_result' && editorState.obcMode) {
+      const result = generateOBc(textContent)
+      if (editorContext.monacoRef.editor.getModel('urn:obc_result')) {
+        editorContext.monacoRef.editor.getModel('urn:obc_result').setValue(result)
+      }
+      return result;
     }
+
     return textContent;
   };
 

@@ -66,6 +66,7 @@ export const LiMenu: VFC<LiMenuProps> = ({ type, program }) => {
         const value = {
           type,
           open: true,
+          cachedModel: `urn:${name}.${type}`,
           ref: ref(program),
           isModif: false,
           model: `urn:${name}.${type}`,
@@ -212,20 +213,20 @@ export const BottomAction = () => {
   };
 
   const openObcMode = () => {
-    editorState.activeMaterial.cachedModel =
-      editorState.activeMaterial.model + '';
-    editorContext.activeMaterial.cachedModel =
-      editorState.activeMaterial.model + '';
-    editorState.activeMaterial.model = 'urn:obc_result';
-    editorContext.activeMaterial.model = 'urn:obc_result';
-    editorState.showEditor = true;
-    editorState.diffMode = false;
-    editorState.obcMode = true;
+    editorContext.activeMaterial.cachedModel = editorContext.activeMaterial.model + '';
+    setTimeout(() => {
+      editorState.activeMaterial.model = 'urn:obc_result';
+      editorContext.activeMaterial.model = 'urn:obc_result';
+      editorState.showEditor = true;
+      editorState.diffMode = false;
+      editorState.obcMode = true;
+    }, 0);
   };
   const closeObcMode = () => {
-    editorState.activeMaterial.model = editorState.activeMaterial.cachedModel;
+    editorState.activeMaterial.model = editorContext.activeMaterial.cachedModel;
     editorContext.activeMaterial.model =
       editorContext.activeMaterial.cachedModel;
+    editorContext.activeMaterial.cachedModel = null;
     editorState.diffMode = false;
     editorState.obcMode = false;
     editorState.triggerUpdate++;

@@ -77,11 +77,8 @@ export const generateHMRObc = (shader: any) => {
 };
 
 export const generateOBc = (_code: string | undefined) => {
-  const model = editorState.activeMaterial.cachedModel;
-  const type =
-    editorState.activeMaterial.type === 'frag'
-      ? 'fragmentShader'
-      : 'vertexShader';
+  const model = editorContext.activeMaterial.cachedModel;
+  const type = editorContext.activeMaterial.type === 'frag' ? 'fragmentShader' : 'vertexShader';
   const oModel = editorContext.monacoRef.editor
     .getModel(model + '_orig')
     .getValue();

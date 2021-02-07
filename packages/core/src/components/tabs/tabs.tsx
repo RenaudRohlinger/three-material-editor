@@ -13,6 +13,10 @@ import { IoCubeOutline } from 'react-icons/io5';
 export const EditorTabs = () => {
   const snapshot = useProxy(editorState);
   const setActive = (value: any) => {
+    if (editorState.obcMode) {
+      editorState.activeMaterial.model = editorContext.activeMaterial.cachedModel;
+      editorContext.activeMaterial.model = editorContext.activeMaterial.cachedModel;
+    }
     editorState.activeMaterial = value;
     editorContext.activeMaterial = value;
 
