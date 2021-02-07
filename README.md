@@ -25,13 +25,7 @@ The editor can generates an onBeforeCompile function and possess a diff editor t
 - React and Vanilla builds
 - Support SSR framework such as NextJS
 
-* [`@three-material-editor/core`](https://github.com/RenaudRohlinger/three-material-editor/tree/main/packages/core) - Code editor
-
 ## Quick start - Vanilla
-
-- [`@three-material-editor/react`](https://github.com/RenaudRohlinger/three-material-editor/tree/main/packages/react) - React wrapper
-
-- [`@three-material-editor/vanilla`](https://github.com/RenaudRohlinger/three-material-editor/tree/main/packages/vanilla) - Vanilla wrapper
 
 ```sh
 yarn add -D @three-material-editor/vanilla
