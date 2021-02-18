@@ -12069,10 +12069,10 @@ validate-npm-package-name@^3.0.0:
   dependencies:
     builtins "^1.0.3"
 
-valtio@^0.6.1:
-  version "0.6.3"
-  resolved "https://registry.yarnpkg.com/valtio/-/valtio-0.6.3.tgz#b92636b0a73705ff7f25a56e9c052079d31774dc"
-  integrity sha512-Rw3V7DrAu8iD2q1Io6uoFuurY/x/d0x9IXCyu2giUnBe95eRvqri0Hhr0YeD9LHltoHCCFA46UbBuZ0O5PGAlw==
+valtio@^0.7.0:
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/valtio/-/valtio-0.7.0.tgz#26752b6df2aac710630878c41a0a494f42ab94ba"
+  integrity sha512-ekxeojLsUiiNwMRRC8NcD1vGRtcMgsZMrePVgjaZszKzLFWJ84uBhtLa5QvwnuuhgU2Mbnaq4IyQHjkNqCi1YA==
   dependencies:
     proxy-compare "1.1.6"
 
