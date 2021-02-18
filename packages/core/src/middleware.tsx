@@ -78,6 +78,8 @@ const meshDebugger:any = new Mesh(undefined, new MeshBasicMaterial({
 meshDebugger.debugMaterial = true
 
 export const traverseMaterialsToProgram = (scene: Scene, gl: any) => {
+  editorContextState.gl = gl;
+
   if (!hasInit) {
     hasInit = true
     scene.add(meshDebugger)
@@ -176,7 +178,6 @@ export const traverseMaterialsToProgram = (scene: Scene, gl: any) => {
       }
     }
   });
-  editorContextState.gl = gl;
   if (iError === 0) {
     meshDebugger.material.visible = false
   }

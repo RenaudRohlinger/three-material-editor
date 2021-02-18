@@ -15,7 +15,7 @@ export let editorState: any = {};
 export let editorContext: any = {};
 export let materialsToProgram: any = {};
 
-if (process.env.NODE_ENV === 'production' || process.env.TME_PROD === 'SHOW') {
+if (process.env.NODE_ENV === 'production' && process.env.TME_PROD !== 'SHOW') {
 } else {
   EditorDom = () => {
     return <MaterialEditor />;
