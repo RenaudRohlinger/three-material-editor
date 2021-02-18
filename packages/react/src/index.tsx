@@ -29,7 +29,7 @@ export let MaterialEditor = (
 
 export let useEditorComposer = () => {};
 
-if (process.env.NODE_ENV === 'production' || process.env.TME_PROD === 'SHOW') {
+if (process.env.NODE_ENV === 'production' && process.env.TME_PROD !== 'SHOW') {
 } else {
   Logic = () => {
     const { scene, gl } = useThree();
