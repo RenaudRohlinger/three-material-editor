@@ -9891,9 +9891,9 @@ react-three-fiber@^5.3.13:
     utility-types "^3.10.0"
 
 react-use-gesture@^9.0.0:
-  version "9.0.0"
-  resolved "https://registry.yarnpkg.com/react-use-gesture/-/react-use-gesture-9.0.0.tgz#c3c1d011e522315da6b31c38619cd4302f41a63b"
-  integrity sha512-inTAcmX0Y8LWr7XViim5+6XlTsJ7kCgwYRrwxSu1Vkjv+8GyClHITFkGGKYXAv5QywZ8YqiJXpzFx8RZpEVF+w==
+  version "9.0.4"
+  resolved "https://registry.yarnpkg.com/react-use-gesture/-/react-use-gesture-9.0.4.tgz#7e0428007df31b6d8daae37c2fb01e9f40283623"
+  integrity sha512-G0sbQY+HSm2gSVIlD+LE1unpVpG7YZRTr8TI72vo0Nu1lecJtvjbcY3ZLonEZLTtODJgLL6nBllMRXyy0bRSQA==
 
 react-use-measure@^2.0.3:
   version "2.0.3"
