@@ -43,7 +43,7 @@
     "react-icons": "^4.1.0",
     "react-use-gesture": "^9.0.0",
     "three": "^0.124.0",
-    "valtio": "^0.6.1"
+    "valtio": "^0.7.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.10",
