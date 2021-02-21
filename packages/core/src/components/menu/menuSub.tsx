@@ -1,7 +1,7 @@
 import React, { useState, VFC } from 'react';
 import { getNameForEditorMaterial } from '../../helpers/shaderToMaterial';
 import { editorState } from '../../state';
-import { useProxy } from 'valtio';
+import { ref, useProxy } from 'valtio';
 
 import { IoEyeOutline } from 'react-icons/io5';
 import { IoEyeOffOutline } from 'react-icons/io5';
@@ -9,6 +9,9 @@ import { RiArrowDownSFill } from 'react-icons/ri';
 import { RiArrowRightSFill } from 'react-icons/ri';
 import styles from './menu.module.css';
 import { IoCubeOutline } from 'react-icons/io5';
+import { VscSettings } from 'react-icons/vsc';
+import { editorContext } from '../../.';
+
 import { LiMenu } from './menuLi';
 
 interface SubMenuProps {
@@ -34,6 +37,32 @@ export const SubMenu: VFC<SubMenuProps> = ({ program }) => {
     material.needsUpdate = true;
     editorState.triggerUpdate++;
   };
+
+  const showUniforms = (e: any) => {
+    e.stopPropagation();
+    const value = {
+      type: '',
+      open: true,
+      ref: ref(program),
+      isModif: false,
+      // model: `urn:${name}.${type}`,
+    };
+    // editorState.tabs[`urn:${name}.${type}`] = value;
+    editorState.activeMaterial = value;
+    editorContext.activeMaterial = value;
+    
+    editorState.showEditor = false;
+    editorState.diffMode = false;
+    editorState.obcMode = false;
+    editorState.showUniforms = true
+
+    // TODO PP LIBS renderToScreen or pass.enabled
+    // material.visible = true;
+    // material.enabled = true;
+    // material.needsUpdate = true;
+    editorState.triggerUpdate++;
+  };
+
   return programGl && material ? (
     <div key={snapshot.triggerUpdate} className={open ? styles.sbopen : ''}>
       <div
@@ -53,6 +82,7 @@ export const SubMenu: VFC<SubMenuProps> = ({ program }) => {
             <small>{material.numberOfMaterialsUser}</small>
           </span>
         )}
+        <VscSettings className={styles.unibtn} onClick={showUniforms} />
         {(material && !material.visible && !material.isEffect ? (
           <IoEyeOffOutline onClick={hide} className={styles.eye} />
         ) : (

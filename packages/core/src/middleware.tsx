@@ -82,7 +82,7 @@ export const traverseMaterialsToProgram = (scene: Scene, gl: any) => {
 
   if (!hasInit) {
     hasInit = true
-    scene.add(meshDebugger)
+    // scene.add(meshDebugger)
   }
   if (editorContextState.composer) {
     editorContextState.composer.passes.forEach((pass: any) => {
@@ -142,15 +142,15 @@ export const traverseMaterialsToProgram = (scene: Scene, gl: any) => {
       if (program) {
         const programDiagnostic: any = program;
         if (programDiagnostic.diagnostics) {
-          if (isAlreadyDerived[muidDerived] && isAlreadyDerived[muidDerived].mesh) {
-            if (!meshDebugger.material.visible) {
-              meshDebugger.geometry = isAlreadyDerived[muidDerived].mesh.geometry
-              meshDebugger.material.visible = true
-            }
-            meshDebugger.position.copy( isAlreadyDerived[muidDerived].mesh.position );
-            meshDebugger.quaternion.copy( isAlreadyDerived[muidDerived].mesh.quaternion );
-            meshDebugger.updateMatrix()
-          }
+          // if (isAlreadyDerived[muidDerived] && isAlreadyDerived[muidDerived].mesh) {
+          //   if (!meshDebugger.material.visible) {
+          //     meshDebugger.geometry = isAlreadyDerived[muidDerived].mesh.geometry
+          //     meshDebugger.material.visible = true
+          //   }
+          //   meshDebugger.position.copy( isAlreadyDerived[muidDerived].mesh.position );
+          //   meshDebugger.quaternion.copy( isAlreadyDerived[muidDerived].mesh.quaternion );
+          //   meshDebugger.updateMatrix()
+          // }
 
           editorState.diagnostics = programDiagnostic.diagnostics;
         
@@ -179,7 +179,7 @@ export const traverseMaterialsToProgram = (scene: Scene, gl: any) => {
     }
   });
   if (iError === 0) {
-    meshDebugger.material.visible = false
+    // meshDebugger.material.visible = false
   }
   if (
     programs.length !== editorContextState.programs.length

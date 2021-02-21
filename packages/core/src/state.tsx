@@ -8,6 +8,7 @@ export interface State {
   fullScreen: boolean;
   className: string;
   diffMode: boolean;
+  showUniforms: boolean;
   obcMode: boolean;
   triggerUpdate: number;
   length: number;
@@ -30,6 +31,7 @@ export const editorState = proxy<State>({
   className: '',
   showMenu: false,
   showEditor: false,
+  showUniforms: false,
   fullScreen: true,
   diffMode: false,
   obcMode: false,

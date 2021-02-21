@@ -32,6 +32,12 @@
   margin-bottom: -3px;
   cursor: pointer;
 }
+.menu svg.unibtn {
+  position: absolute;
+  right: 23px;
+  margin: 3px 7px;
+}
+
 .menu svg.eye {
   position: absolute;
   right: 0;

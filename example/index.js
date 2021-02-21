@@ -10,6 +10,35 @@ import { EffectComposer, DepthOfField, Bloom, Noise, Vignette } from '@react-thr
 
 import * as THREE from 'three';
 
+
+
+const ShaderCustom = {
+  uniforms: {
+    factor: { type: "f", value: 0 },
+    color: { value: new THREE.Color() },
+    offset: { value: new THREE.Vector2() },
+  },
+  vertexShader: `
+  uniform vec3 offset;
+
+    varying vec2 vUv;
+    void main() {
+      vUv = uv;
+      vec3 pos = vec3(position.x + offset.x * 10., position.y + offset.y * 10., position.z);
+      gl_Position = projectionMatrix * modelViewMatrix * vec4( pos, 1.0 );
+    }`,
+  fragmentShader: `
+    varying vec2 vUv;
+    uniform vec3 color;
+    uniform float factor;
+    void main() {
+      vec2 uv = vUv;
+      // vec4 disp = texture2D(disp, uv);
+      vec3 grad = mix(color, vec3(1.), factor);
+      gl_FragColor = vec4(grad, 1.);
+    }`
+}
+
 const BoxStandard = (props) => {
   return (
     <mesh {...props}>
@@ -53,7 +82,8 @@ const BoxShader2 = (props) => {
   return (
     <mesh {...props}>
       <boxGeometry args={[1, 1]} />
-      <shaderMaterial />
+      <shaderMaterial
+        args={[ShaderCustom]} />
     </mesh>
   );
 }
@@ -66,12 +96,12 @@ const App = () => {
       {/* <ambientLight intensity={0.5} /> */}
 
       <React.Suspense fallback={null}>
-        {/* <Sphere
+        <Sphere
           args={[1, 32, 32]}
         >
           <MeshDistortMaterial factor={2} color={'black'} />
-        </Sphere> */}
-        {/* <Environment preset={'studio'} /> */}
+        </Sphere>
+        <Environment preset={'studio'} />
         {/* <EffectComposer ref={useEditorComposer()}>
           <Noise opacity={0.4} />
           <Vignette eskil={false} offset={0.1} darkness={1.1} />

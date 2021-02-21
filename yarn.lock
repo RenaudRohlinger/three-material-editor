@@ -2273,17 +2273,17 @@
     webpack "^4.44.1"
     webpack-bundle-analyzer "^3.9.0"
 
-"@stitches/core@^0.0.3-canary.4":
-  version "0.0.3-canary.4"
-  resolved "https://registry.yarnpkg.com/@stitches/core/-/core-0.0.3-canary.4.tgz#47f5bcf250f5a010218e76510af4ba52e066de6c"
-  integrity sha512-VlDwtJfhWvxItU8ai5i0UQcNx7MRUIMpy2i6ufUVxcINXkrFZDTBxfahdgKQIT5oS3kT0LbUySctRDEMbt79YA==
+"@stitches/core@^0.1.0-canary.12":
+  version "0.1.0-canary.12"
+  resolved "https://registry.yarnpkg.com/@stitches/core/-/core-0.1.0-canary.12.tgz#9254f5372607e57c2563d813907b972c5c411dcd"
+  integrity sha512-JP2OVj1yU3TijCkOr9pg0lHeLzJd7LnOeUsSOmp+H9R/LTFCrYKDuFufI71S7zlupJNBQnq76SrJXdov0pdPNA==
 
-"@stitches/react@^0.0.3-canary.4":
-  version "0.0.3-canary.4"
-  resolved "https://registry.yarnpkg.com/@stitches/react/-/react-0.0.3-canary.4.tgz#a482ef65ee26607840b690910b177eb8a5c68d97"
-  integrity sha512-t9IotrA7nC3kM50yPgDumIwYUB9FhuEjuta2kEzUs8LTi5q8cvkG+9JOZAWDmTl/V5DImui8pv/5OMNKlG4bfg==
+"@stitches/react@^0.1.0-canary.5":
+  version "0.1.0-canary.12"
+  resolved "https://registry.yarnpkg.com/@stitches/react/-/react-0.1.0-canary.12.tgz#ef38e0ecfa037ff7d7f3f21d5cdbbdd87ad6044a"
+  integrity sha512-E6VsTJ2rKW89MTcfV0+PdzdFjA8GGjZ0sYFtG9f+IAXP73MGsNaHYKuulfMDDzCByFFMW9PkcDMH65xAMlyMvA==
   dependencies:
-    "@stitches/core" "^0.0.3-canary.4"
+    "@stitches/core" "^0.1.0-canary.12"
 
 "@types/babel__core@^7.1.7":
   version "7.1.12"
@@ -7557,20 +7557,20 @@ lerna@^3.15.0:
     import-local "^2.0.0"
     npmlog "^4.1.2"
 
-leva@^0.2.3:
-  version "0.2.3"
-  resolved "https://registry.yarnpkg.com/leva/-/leva-0.2.3.tgz#13bcacae4b27492bc4b012ecb824ab4f30b01e02"
-  integrity sha512-Rpcuxp7y0VH330vm39ZdY77LUJizP5Q4ZIyEAhsQHJxOPqSk6E9YeL0hthPZw/GeQ0ixScHv2a1C6QAnob1rPg==
+leva@^0.3.1:
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/leva/-/leva-0.3.1.tgz#695129c5ef7ab98d923ef92c00abf9d43ffb5e96"
+  integrity sha512-l4zrEKT3yTWyWVB0NValLG2xcchC609gqnZHWws6i6QfmTMGom6BHyaGsYkVLTcmGoqL4+BZFd2Gb7+SI49NcQ==
   dependencies:
-    "@stitches/react" "^0.0.3-canary.4"
+    "@stitches/react" "^0.1.0-canary.5"
     "@welldone-software/why-did-you-render" "^6.0.5"
     clipboard-polyfill "^3.0.2"
     dequal "^2.0.2"
     merge-value "^1.0.0"
-    react-colorful "^4.4.4"
-    react-dropzone "^11.2.4"
+    react-colorful "^5.0.0"
+    react-dropzone "^11.3.1"
     react-portal "^4.2.1"
-    react-use-gesture "^9.0.0"
+    react-use-gesture "^9.0.2"
     tinycolor2 "^1.4.2"
     v8n "^1.3.3"
     zustand "^3.3.1"
@@ -9816,10 +9816,10 @@ raw-body@2.4.0:
     iconv-lite "0.4.24"
     unpipe "1.0.0"
 
-react-colorful@^4.4.4:
-  version "4.4.4"
-  resolved "https://registry.yarnpkg.com/react-colorful/-/react-colorful-4.4.4.tgz#38e7c5b7075bbf63d3cce22d8c61a439a58b7561"
-  integrity sha512-01V2/6rr6sa1vaZntWZJXZxnU7ew02NG2rqq0eoVp4d3gFU5Ug9lDzNMbr+8ns0byXsJbBR8LbwQTlAjz6x7Kg==
+react-colorful@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/react-colorful/-/react-colorful-5.0.0.tgz#0aa02eb4f4b3f625881be03fa1e7058441e5fa9b"
+  integrity sha512-JtYG+tnm3bWG7WTG4PtfoiafGaNl6HajSLqBtsBMiVDFtvfz28vyWEtxsMeqksj8iUF2LQDMZORSuDiEc3hY0A==
 
 "react-dom@^16.8.0 || ^17.0.0", react-dom@^17.0.1:
   version "17.0.1"
@@ -9830,7 +9830,7 @@ react-colorful@^4.4.4:
     object-assign "^4.1.1"
     scheduler "^0.20.1"
 
-react-dropzone@^11.2.4:
+react-dropzone@^11.3.1:
   version "11.3.1"
   resolved "https://registry.yarnpkg.com/react-dropzone/-/react-dropzone-11.3.1.tgz#a3115e728b32b33e89f03d691b5b3b44b7f9072f"
   integrity sha512-gPyw524T6dYZW81aQoBGmBG90cVNs+YJreh3HaN45Yw09Bm6m4aA6IF9ergHZQAWGeDSJ+DUhDKKAAaDdTj3RQ==
@@ -9894,6 +9894,11 @@ react-use-gesture@^9.0.0:
   version "9.0.0"
   resolved "https://registry.yarnpkg.com/react-use-gesture/-/react-use-gesture-9.0.0.tgz#c3c1d011e522315da6b31c38619cd4302f41a63b"
   integrity sha512-inTAcmX0Y8LWr7XViim5+6XlTsJ7kCgwYRrwxSu1Vkjv+8GyClHITFkGGKYXAv5QywZ8YqiJXpzFx8RZpEVF+w==
+
+react-use-gesture@^9.0.2:
+  version "9.0.4"
+  resolved "https://registry.yarnpkg.com/react-use-gesture/-/react-use-gesture-9.0.4.tgz#7e0428007df31b6d8daae37c2fb01e9f40283623"
+  integrity sha512-G0sbQY+HSm2gSVIlD+LE1unpVpG7YZRTr8TI72vo0Nu1lecJtvjbcY3ZLonEZLTtODJgLL6nBllMRXyy0bRSQA==
 
 react-use-measure@^2.0.3:
   version "2.0.3"
