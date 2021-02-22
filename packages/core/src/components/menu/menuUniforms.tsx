@@ -76,6 +76,8 @@ const loadTexture = (uniforms: any, key: string, value: any) => {
     if (value && value !== uniforms[key].value.image.preventDouble) {
       new THREE.TextureLoader().load(value, (x) => {
         uniforms[key].value = x
+        uniforms[key].value.wrapS = uniforms[key].value.wrapT = THREE.RepeatWrapping
+
         uniforms[key].value.image.preventDouble = value
         uniforms[key].value.image.isOriginal = false
         uniforms[key].value.needsUpdate = true
@@ -83,6 +85,8 @@ const loadTexture = (uniforms: any, key: string, value: any) => {
     } else if (!value && !uniforms[key].value.image.isOriginal) {
       new THREE.TextureLoader().load(uniforms[key].copyRef, (x) => {
         uniforms[key].value = x
+        uniforms[key].value.wrapS = uniforms[key].value.wrapT = THREE.RepeatWrapping
+
         uniforms[key].value.image.preventDouble = value
         uniforms[key].value.image.isOriginal = true
         uniforms[key].value.needsUpdate = true

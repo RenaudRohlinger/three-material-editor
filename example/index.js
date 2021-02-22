@@ -14,51 +14,33 @@ import * as THREE from 'three';
 
 const ShaderCustom = {
   uniforms: {
+    factor: { type: "f", value: 0 },
     color: { value: new THREE.Color() },
+    offset: { value: new THREE.Vector2(1, 1) },
+    pos: { value: new THREE.Vector3() },
+    tex: { value: undefined },
   },
   vertexShader: `
+    uniform vec3 pos;
     varying vec2 vUv;
     void main() {
       vUv = uv;
-      gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+      vec3 poss = vec3(position.x + pos.x * 10., position.y + pos.y * 10., position.z + pos.z * 10.);
+      gl_Position = projectionMatrix * modelViewMatrix * vec4( poss, 1.0 );
     }`,
   fragmentShader: `
     varying vec2 vUv;
     uniform vec3 color;
+    uniform vec2 offset;
+    uniform float factor;
+    uniform sampler2D tex;
     void main() {
       vec2 uv = vUv;
-      gl_FragColor = vec4(color, 1.);
+      vec4 texx = texture2D(tex, uv * offset);
+      vec3 grad = mix(texx.rgb, color, factor);
+      gl_FragColor = vec4(grad, 1.);
     }`
 }
-
-// const ShaderCustom = {
-//   uniforms: {
-//     factor: { type: "f", value: 0 },
-//     color: { value: new THREE.Color() },
-//     offset: { value: new THREE.Vector2() },
-//     tex: { value: undefined },
-//   },
-//   vertexShader: `
-//   uniform vec3 offset;
-
-//     varying vec2 vUv;
-//     void main() {
-//       vUv = uv;
-//       vec3 pos = vec3(position.x + offset.x * 10., position.y + offset.y * 10., position.z);
-//       gl_Position = projectionMatrix * modelViewMatrix * vec4( pos, 1.0 );
-//     }`,
-//   fragmentShader: `
-//     varying vec2 vUv;
-//     uniform vec3 color;
-//     uniform float factor;
-//     uniform sampler2D tex;
-//     void main() {
-//       vec2 uv = vUv;
-//       vec4 texx = texture2D(tex, uv);
-//       vec3 grad = mix(texx.rgb, color, factor);
-//       gl_FragColor = vec4(grad, 1.);
-//     }`
-// }
 
 const BoxStandard = (props) => {
   return (
@@ -101,11 +83,12 @@ const BoxShader = (props) => {
 
 const BoxShader2 = (props) => {
   const tex = useTexture('/test.jpeg')
+  tex.wrapS = tex.wrapT = THREE.RepeatWrapping
   return (
     <mesh {...props}>
       <boxGeometry args={[1, 1]} />
       <shaderMaterial
-        args={[ShaderCustom]} />
+        args={[ShaderCustom]} uniforms-tex-value={tex} />
     </mesh>
   );
 }
@@ -125,10 +108,10 @@ const App = () => {
           <MeshDistortMaterial factor={2} color={'black'} />
         </Sphere>
         <Environment preset={'studio'} />
-        {/* <EffectComposer ref={useEditorComposer()}>
+        <EffectComposer ref={useEditorComposer()}>
           <Noise opacity={0.4} />
           <Vignette eskil={false} offset={0.1} darkness={1.1} />
-        </EffectComposer> */}
+        </EffectComposer>
 
       </React.Suspense>
 

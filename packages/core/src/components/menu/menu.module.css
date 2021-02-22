@@ -1,4 +1,7 @@
 .menu {
+  --sizes-controlWidth: initial;
+  --colors-elevation1: #292b2d;
+  --colors-elevation2: #292b2d;
   position: fixed;
   z-index: 999;
   transform: translateX(calc(min(calc(100vw - 160px), var(--editor-width)) * -1 - 100% + 7px));
@@ -7,7 +10,7 @@
   color: rgba(145,145,145,1);
   font-size: 13px;
   padding: 5px 0;
-  min-width: 160px;
+  min-width: 170px;
   cursor: nesw-resize;
   height: min(100vh, max(120px, calc(100% - var(--editor-minus-height))));
   overflow: hidden;
