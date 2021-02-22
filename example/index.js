@@ -5,7 +5,7 @@ import { Canvas, useFrame } from 'react-three-fiber';
 import './index.css'
 import { Perf } from 'r3f-perf';
 import { MaterialEditor, useEditorComposer } from '@three-material-editor/react';
-import { Environment, MeshDistortMaterial, Sphere, Text } from '@react-three/drei'
+import { Environment, MeshDistortMaterial, Sphere, Text, useTexture } from '@react-three/drei'
 import { EffectComposer, DepthOfField, Bloom, Noise, Vignette } from '@react-three/postprocessing'
 
 import * as THREE from 'three';
@@ -17,6 +17,7 @@ const ShaderCustom = {
     factor: { type: "f", value: 0 },
     color: { value: new THREE.Color() },
     offset: { value: new THREE.Vector2() },
+    tex: { value: undefined },
   },
   vertexShader: `
   uniform vec3 offset;
@@ -31,10 +32,11 @@ const ShaderCustom = {
     varying vec2 vUv;
     uniform vec3 color;
     uniform float factor;
+    uniform sampler2D tex;
     void main() {
       vec2 uv = vUv;
-      // vec4 disp = texture2D(disp, uv);
-      vec3 grad = mix(color, vec3(1.), factor);
+      vec4 texx = texture2D(tex, uv);
+      vec3 grad = mix(texx.rgb, color, factor);
       gl_FragColor = vec4(grad, 1.);
     }`
 }
@@ -79,11 +81,12 @@ const BoxShader = (props) => {
 }
 
 const BoxShader2 = (props) => {
+  const tex = useTexture('/test.jpeg')
   return (
     <mesh {...props}>
       <boxGeometry args={[1, 1]} />
       <shaderMaterial
-        args={[ShaderCustom]} />
+        args={[ShaderCustom]} uniforms-tex-value={tex} />
     </mesh>
   );
 }
@@ -96,6 +99,7 @@ const App = () => {
       {/* <ambientLight intensity={0.5} /> */}
 
       <React.Suspense fallback={null}>
+        <BoxShader2 position={[2, 1, 0]} rotation={[.35,.35,.35]} />
         <Sphere
           args={[1, 32, 32]}
         >
@@ -114,7 +118,6 @@ const App = () => {
      {/*  <BoxStandard position={[-2, 0, 0]} rotation={[.35,.35,.35]} /> */}
       {/* <BoxNormal position={[2, 0, 0]} rotation={[.35,.35,.35]} /> */}
       {/* <BoxShader position={[0, 1, 0]} rotation={[.35,.35,.35]} /> */}
-      <BoxShader2 position={[2, 1, 0]} rotation={[.35,.35,.35]} />
        {/* <BoxShader2 position={[2, 1, 0]} rotation={[.35,.35,.35]} /> */}
        {/* <Text fontSize={3} letterSpacing={-0.06}>
           drei

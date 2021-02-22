@@ -4,7 +4,7 @@ import React, { useEffect, VFC } from 'react';
 import { editorContextState as editorContext, editorState } from '../../state';
 import { Leva, usePanel, LevaPanel } from "leva";
 import { useProxy } from 'valtio';
-// import * as THREE from 'three'
+import * as THREE from 'three'
 
 // import styles from './menu.module.css';
 
@@ -12,7 +12,7 @@ interface UniformsMenuProps {
 }
 
 // foreach
-
+const color = new THREE.Color()
 export const UniformsMenu: VFC<UniformsMenuProps> = () => {
   const snapshot = useProxy(editorState);
   const [store, setSelection]:any = React.useState(null)
@@ -31,8 +31,6 @@ export const UniformsMenu: VFC<UniformsMenuProps> = () => {
   }
   const filteredItems:any = {}
   Object.entries(material.uniforms).map(([key, uniform]: any) => {
-
-   
     if (!uniform.isNativeUniforms && key !== 'time') {
       if (typeof uniform.value === 'number') {
         uniform.min = -1
@@ -42,13 +40,15 @@ export const UniformsMenu: VFC<UniformsMenuProps> = () => {
       if (uniform.type) {
         delete uniform.age
       }
-      if (uniform.value.isColor) {
+      if (uniform && uniform.value && uniform.value.image) {
+        filteredItems[key] = {image: uniform.value}
+        uniform.copyRef = uniform.value.image.currentSrc
+      } else if (uniform.value && uniform.value.isColor) {
         const col = uniform.value
         filteredItems[key] = {r: col.r, g: col.g, b: col.b}
       } else {
         filteredItems[key] = uniform
       }
-      // console.log(filteredItems[key])
 
       Object.entries(filteredItems[key]).map(([skey, value]) => {
         if (typeof value === 'string') {
@@ -57,59 +57,62 @@ export const UniformsMenu: VFC<UniformsMenuProps> = () => {
       })
     }
   })
-  // const [, store] = usePanel({});
 
-  // const [key, set] = React.useState(false)
-  // setSelection([-1, null])
-  // var filteredItems = Object.keys(material.uniforms).reduce(function(r:any, e) {
-  //   if (!r.isNativeUniforms && e !== 'time') r[e] = material.uniforms[e]
-  //   return r;
-  // }, {})
   return (
     <div>
       <Leva detached={true} hideTitleBar oneLineLabels={false} />
       <LevaPanel store={store} oneLineLabels={false} />
       {/* <LevaPanel store={store} oneLineLabels={false} /> */}
       <div key={snapshot.triggerUpdate}>
-      <UniformComp filteredItems={filteredItems} setSelection={setSelection} uniforms={material.uniforms} store={store} />
+        <UniformComp filteredItems={filteredItems} setSelection={setSelection} uniforms={material.uniforms} store={store} />
       </div>
-      {/* {
-      Object.entries(material.uniforms).map(([key, uniform]: any) => {
-        // console.log(key, uniform)
-        // if (key === 'time' || uniform.isNativeUniforms) {
-        //   return null
-        // }
-         
-
-       
-      })
-      } */}
     </div>
   )
 };
 
+const loadTexture = (uniforms: any, key: string, value: any) => {
+
+  if (uniforms[key] && uniforms[key].value && uniforms[key].value.image) {
+    if (value && value !== uniforms[key].value.image.preventDouble) {
+      new THREE.TextureLoader().load(value, (x) => {
+        uniforms[key].value = x
+        uniforms[key].value.image.preventDouble = value
+        uniforms[key].value.image.isOriginal = false
+        uniforms[key].value.needsUpdate = true
+      })
+    } else if (!value && !uniforms[key].value.image.isOriginal) {
+      new THREE.TextureLoader().load(uniforms[key].copyRef, (x) => {
+        uniforms[key].value = x
+        uniforms[key].value.image.preventDouble = value
+        uniforms[key].value.image.isOriginal = true
+        uniforms[key].value.needsUpdate = true
+      })
+    }
+  }
+ 
+}
 const UniformComp = ({filteredItems, uniforms, setSelection} :any) => {
-  // const obj:any = {}
-  // obj[key] = uniform.value
-  // const [val, store] = usePanel(obj);
-  // uniform.value = val[key]
-  // const [val, ] = usePanelControls(filteredItems);
-  // const [boxes, setBoxes] = React.useState([])
-  // }
-  const [val, store] = usePanel(filteredItems)
+  const [elements, store]: any = usePanel(filteredItems)
+
   useEffect(() => {
-    for (const [key, value] of Object.entries(val)) {
-      // const val:any = value
-      if (uniforms[key]) {
-        // if (val['r'] && val['g'] && val['b']) {
-        //   uniforms[key].value = new THREE.Color(val['r'], val['g'], val['b'])
-        //   break
-        // } else {
-          uniforms[key].value = value
-        // }
+    for (const [key, value] of Object.entries(elements)) {
+      const val:any = value
+      // is image
+      if (typeof value === 'string' || !value) {
+        loadTexture(uniforms, key, value)
+      } else {
+        if (uniforms[key]) {
+          if (val['r'] && val['g'] && val['b']) {
+            const factor = val.isFromLeva ? 255 : 1
+            uniforms[key].value = color.setRGB(val['r'] / factor, val['g'] / factor, val['b'] / factor)
+            val.isFromLeva = true
+          } else {
+            uniforms[key].value = value
+          }
+        }
       }
     }
-  }, [val])
+  }, [elements])
 
   useEffect(() => {
     setSelection(store)

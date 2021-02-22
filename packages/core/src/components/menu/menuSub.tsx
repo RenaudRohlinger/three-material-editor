@@ -71,18 +71,20 @@ export const SubMenu: VFC<SubMenuProps> = ({ program }) => {
             ? styles.open
             : ''
         }`}
-        onClick={() => {
-          set(!open);
-        }}
+        onClick={showUniforms}
       >
-        {open ? <RiArrowDownSFill /> : <RiArrowRightSFill />} {name}
+        {open ? <RiArrowDownSFill  onClick={() => {
+          set(!open);
+        }} /> : <RiArrowRightSFill onClick={() => {
+          set(!open);
+        }} />} {name}
         {material && material.numberOfMaterialsUser > 1 && (
           <span className={styles.multiusers}>
             <IoCubeOutline />
             <small>{material.numberOfMaterialsUser}</small>
           </span>
         )}
-        <VscSettings className={styles.unibtn} onClick={showUniforms} />
+        <VscSettings className={styles.unibtn} />
         {(material && !material.visible && !material.isEffect ? (
           <IoEyeOffOutline onClick={hide} className={styles.eye} />
         ) : (
