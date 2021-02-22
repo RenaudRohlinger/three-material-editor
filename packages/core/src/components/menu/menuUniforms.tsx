@@ -45,7 +45,7 @@ export const UniformsMenu: VFC<UniformsMenuProps> = () => {
         uniform.copyRef = uniform.value.image.currentSrc
       } else if (uniform.value && uniform.value.isColor) {
         const col = uniform.value
-        filteredItems[key] = {r: col.r, g: col.g, b: col.b}
+        filteredItems[key] = {r: col.r * 255, g: col.g * 255, b: col.b * 255}
       } else {
         filteredItems[key] = uniform
       }
@@ -103,9 +103,8 @@ const UniformComp = ({filteredItems, uniforms, setSelection} :any) => {
       } else {
         if (uniforms[key]) {
           if (val['r'] && val['g'] && val['b']) {
-            const factor = val.isFromLeva ? 255 : 1
+            const factor =  255
             uniforms[key].value = color.setRGB(val['r'] / factor, val['g'] / factor, val['b'] / factor)
-            val.isFromLeva = true
           } else {
             uniforms[key].value = value
           }

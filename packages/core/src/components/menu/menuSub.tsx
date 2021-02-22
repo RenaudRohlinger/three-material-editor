@@ -45,9 +45,7 @@ export const SubMenu: VFC<SubMenuProps> = ({ program }) => {
       open: true,
       ref: ref(program),
       isModif: false,
-      // model: `urn:${name}.${type}`,
     };
-    // editorState.tabs[`urn:${name}.${type}`] = value;
     editorState.activeMaterial = value;
     editorContext.activeMaterial = value;
     
@@ -55,11 +53,6 @@ export const SubMenu: VFC<SubMenuProps> = ({ program }) => {
     editorState.diffMode = false;
     editorState.obcMode = false;
     editorState.showUniforms = true
-
-    // TODO PP LIBS renderToScreen or pass.enabled
-    // material.visible = true;
-    // material.enabled = true;
-    // material.needsUpdate = true;
     editorState.triggerUpdate++;
   };
 

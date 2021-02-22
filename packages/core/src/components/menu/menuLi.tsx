@@ -60,10 +60,12 @@ export const LiMenu: VFC<LiMenuProps> = ({ type, program }) => {
         editorState.tabs[`urn:${name}.${type}`] = value;
         editorState.activeMaterial = value;
         editorContext.activeMaterial = value;
-        
+        editorState.showUniforms = true
+
         editorState.showEditor = true;
         editorState.diffMode = false;
         editorState.obcMode = false;
+        editorState.triggerUpdate++;
         checkIfModifications();
       }}
     >

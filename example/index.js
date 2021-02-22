@@ -14,32 +14,51 @@ import * as THREE from 'three';
 
 const ShaderCustom = {
   uniforms: {
-    factor: { type: "f", value: 0 },
     color: { value: new THREE.Color() },
-    offset: { value: new THREE.Vector2() },
-    tex: { value: undefined },
   },
   vertexShader: `
-  uniform vec3 offset;
-
     varying vec2 vUv;
     void main() {
       vUv = uv;
-      vec3 pos = vec3(position.x + offset.x * 10., position.y + offset.y * 10., position.z);
-      gl_Position = projectionMatrix * modelViewMatrix * vec4( pos, 1.0 );
+      gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
     }`,
   fragmentShader: `
     varying vec2 vUv;
     uniform vec3 color;
-    uniform float factor;
-    uniform sampler2D tex;
     void main() {
       vec2 uv = vUv;
-      vec4 texx = texture2D(tex, uv);
-      vec3 grad = mix(texx.rgb, color, factor);
-      gl_FragColor = vec4(grad, 1.);
+      gl_FragColor = vec4(color, 1.);
     }`
 }
+
+// const ShaderCustom = {
+//   uniforms: {
+//     factor: { type: "f", value: 0 },
+//     color: { value: new THREE.Color() },
+//     offset: { value: new THREE.Vector2() },
+//     tex: { value: undefined },
+//   },
+//   vertexShader: `
+//   uniform vec3 offset;
+
+//     varying vec2 vUv;
+//     void main() {
+//       vUv = uv;
+//       vec3 pos = vec3(position.x + offset.x * 10., position.y + offset.y * 10., position.z);
+//       gl_Position = projectionMatrix * modelViewMatrix * vec4( pos, 1.0 );
+//     }`,
+//   fragmentShader: `
+//     varying vec2 vUv;
+//     uniform vec3 color;
+//     uniform float factor;
+//     uniform sampler2D tex;
+//     void main() {
+//       vec2 uv = vUv;
+//       vec4 texx = texture2D(tex, uv);
+//       vec3 grad = mix(texx.rgb, color, factor);
+//       gl_FragColor = vec4(grad, 1.);
+//     }`
+// }
 
 const BoxStandard = (props) => {
   return (
@@ -86,7 +105,7 @@ const BoxShader2 = (props) => {
     <mesh {...props}>
       <boxGeometry args={[1, 1]} />
       <shaderMaterial
-        args={[ShaderCustom]} uniforms-tex-value={tex} />
+        args={[ShaderCustom]} />
     </mesh>
   );
 }
