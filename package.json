@@ -6,7 +6,6 @@
   "license": "MIT",
   "devDependencies": {
     "@babel/plugin-syntax-flow": "^7.12.1",
-    "@react-three/drei": "^2.2.18",
     "@size-limit/preset-big-lib": "^4.9.1",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
@@ -14,12 +13,12 @@
     "postcss": "^8.2.4",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
-    "react-three-fiber": "^5.3.13",
+    "react-three-fiber": "^5.3.18",
     "rollup-plugin-postcss": "^4.0.0",
     "rollup-plugin-typescript2": "^0.29.0",
+    "size-limit": "^4.9.1",
     "tsdx": "^0.14.1",
-    "typescript": "^3.9.7",
-    "size-limit": "^4.9.1"
+    "typescript": "^3.9.7"
   },
   "workspaces": [
     "packages/*"

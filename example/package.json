@@ -10,11 +10,11 @@
   },
   "dependencies": {
     "@react-three/postprocessing": "^1.5.1",
-    "r3f-perf": "^0.77.0",
+    "r3f-perf": "^0.82.0",
     "react": "^17.0.1",
     "react-app-polyfill": "^1.0.0",
     "react-dom": "^17.0.1",
-    "three": "^0.124.0"
+    "three": "^0.125.2"
   },
   "alias": {
     "@three-material-editor/react": "../packages/react",
@@ -26,7 +26,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.12.10",
-    "@react-three/drei": "^3.4.0",
+    "@react-three/drei": "^3.8.6",
     "@types/react": "^16.9.11",
     "@types/react-dom": "^16.8.4",
     "parcel": "^1.12.3",
