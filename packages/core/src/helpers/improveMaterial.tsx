@@ -28,7 +28,9 @@ export const addShaderDebugMaterial = (material: any) => {
         // sometimes we lose the uniforms ?
         // if (!newMaterial.editorAttributeUniforms) {
         //   newMaterial.editorAttributeUniforms = true
-          shader.uniforms = Object.assign(shader.uniforms, newMaterial.uniforms);
+      if (!newMaterial.postprocess) {
+        shader.uniforms = Object.assign(shader.uniforms, newMaterial.uniforms);
+      }
         // }
       // @ts-ignore
       if (this.editorOnBeforeCompile) {
@@ -42,8 +44,10 @@ export const addShaderDebugMaterial = (material: any) => {
       // }
   
       // if time detected in obc or material, automatically update the value
-      if (shader.uniforms.time) {
+      if (shader.uniforms.time && !newMaterial.postprocess) {
         shader.uniforms.time = {
+          writable: true,
+          configurable: true,
           // @ts-ignore
           get value() {
             return (Date.now() - epoch) / 1000;
@@ -53,6 +57,8 @@ export const addShaderDebugMaterial = (material: any) => {
       // helper for resolution
       if (shader.uniforms.resolution) {
         shader.uniforms.resolution = {
+          writable: true,
+          configurable: true,
           // @ts-ignore
           get value() {
             return res
