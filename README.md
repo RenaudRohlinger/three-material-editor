@@ -15,6 +15,7 @@ The editor can generates an onBeforeCompile function and possess a diff editor t
 - The fullscreen mode will embed your canvas in a popup automatically
 - Manage share materials
 - Handle dynamic scene and meshes
+- GLSL uniforms auto GUI
 - Automatically removed in production based on env variable
 
 #### Support :
