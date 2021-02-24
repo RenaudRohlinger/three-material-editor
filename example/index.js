@@ -109,7 +109,7 @@ const App = () => {
         </Sphere> */}
         {/* <Environment preset={'studio'} /> */}
         <EffectComposer ref={useEditorComposer()}>
-          <Noise opacity={0.4} />
+          {/* <Noise opacity={0.4} /> */}
           <Vignette eskil={false} offset={0.1} darkness={1.1} />
         </EffectComposer>
 
