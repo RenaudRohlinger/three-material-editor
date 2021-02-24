@@ -1,3 +1,4 @@
+import 'regenerator-runtime/runtime'
 import * as THREE from 'three'
 import { MaterialEditor, useEditorComposer } from '@three-material-editor/vanilla';
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';

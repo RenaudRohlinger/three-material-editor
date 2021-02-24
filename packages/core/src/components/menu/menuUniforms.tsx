@@ -34,7 +34,6 @@ export const UniformsMenu: VFC<UniformsMenuProps> = () => {
   const filteredItems:any = {}
 
 
-
   if (material.uniforms.size && material.uniforms.size > 0) {
     material.uniforms.forEach((uniform: any, key: any) => {
       if (!uniform.isNativeUniforms && key !== 'time') {
@@ -45,6 +44,7 @@ export const UniformsMenu: VFC<UniformsMenuProps> = () => {
         if (uniform.type) {
           delete uniform.type
         }
+
         if (uniform && uniform.value && uniform.value.image) {
           filteredItems[key] = {image: uniform.value}
           uniform.copyRef = uniform.value.image.currentSrc
@@ -54,7 +54,7 @@ export const UniformsMenu: VFC<UniformsMenuProps> = () => {
         } else {
           filteredItems[key] = uniform
         }
-  
+        material.uniforms.set(key, uniform)
         Object.entries(filteredItems[key]).map(([skey, value]) => {
           if (typeof value === 'string') {
             delete filteredItems[key][skey]
@@ -69,8 +69,8 @@ export const UniformsMenu: VFC<UniformsMenuProps> = () => {
     Object.entries(material.uniforms).map(([key, uniform]: any) => {
       if (!uniform.isNativeUniforms && key !== 'time') {
         if (typeof uniform.value === 'number') {
-          uniform.min = -1
-          uniform.max = 1
+          uniform.min = Math.min(-1, -Math.round(uniform.value))
+          uniform.max = Math.max(1, Math.round(uniform.value))
         }
         if (uniform.type) {
           delete uniform.type
@@ -78,13 +78,14 @@ export const UniformsMenu: VFC<UniformsMenuProps> = () => {
         if (uniform && uniform.value && uniform.value.image) {
           filteredItems[key] = {image: uniform.value}
           uniform.copyRef = uniform.value.image.currentSrc
+
         } else if (uniform.value && uniform.value.isColor) {
           const col = uniform.value
           filteredItems[key] = {r: col.r * 255, g: col.g * 255, b: col.b * 255}
         } else {
           filteredItems[key] = uniform
         }
-  
+
         Object.entries(filteredItems[key]).map(([skey, value]) => {
           if (typeof value === 'string') {
             delete filteredItems[key][skey]
