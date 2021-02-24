@@ -1,31 +1,41 @@
 import React from 'react';
-import { getNameForEditorMaterial } from '../../helpers/shaderToMaterial';
 import { editorState } from '../../state';
-import { editorContext } from '../../.';
+// import { editorContext } from '../../.';
 import styles from './tabs.module.css';
 import editorcss from '../../editor.module.css';
 import { IoCloseOutline } from 'react-icons/io5';
 import { useProxy } from 'valtio';
 import { IoImageOutline } from 'react-icons/io5';
 import { IoCubeOutline } from 'react-icons/io5';
-// import { checkIfModifications } from '../../editor';
+import { checkIfModifications } from '../../editor';
 
 export const EditorTabs = () => {
   const snapshot = useProxy(editorState);
   const setActive = (value: any) => {
-    if (editorState.obcMode) {
-      editorState.activeMaterial.model = editorContext.activeMaterial.cachedModel;
-      editorContext.activeMaterial.model = editorContext.activeMaterial.cachedModel;
+    if (editorState.obcMode || editorState.diffMode) {
+      editorState.activeMaterial.model = editorState.activeMaterial.cachedModel;
+      editorState.activeMaterial.cachedModel = null;
+      editorState.diffMode = false;
+      editorState.obcMode = false;
+      editorState.triggerUpdate++;
+    } else {
+      editorState.activeMaterial = value
     }
-    editorState.activeMaterial = value;
-    editorContext.activeMaterial = value;
-
-    editorState.obcMode = false;
-    editorState.diffMode = false;
-    editorState.triggerUpdate++;
+   
+    checkIfModifications();
   };
-  const closeTab = (value: any) => {
-    delete editorState.tabs[value.model];
+  const closeTab = (key: any) => {
+    delete editorState.tabs[key];
+    if (Object.keys(editorState.tabs).length === 0) {
+      editorState.obcMode = false;
+      editorState.diffMode = false;
+      editorState.triggerUpdate++;
+      return
+    }
+    let lastKey = Object.keys(editorState.tabs).pop()
+    if (lastKey) {
+      editorState.activeMaterial = editorState.tabs[lastKey]
+    }
   };
 
   return (
@@ -35,15 +45,12 @@ export const EditorTabs = () => {
       }`}
     >
       {Object.entries(snapshot.tabs).map(([key, value]: any) => {
-        const material = value.ref.material;
-        const program = value.ref.program;
-        const name = getNameForEditorMaterial(material, program)
-
+        const name = value.model.replace('urn:', '')
         return (
           <div key={key}>
             <div
               className={
-                value.model === snapshot.activeMaterial.model
+                key === snapshot.activeMaterial.model
                   ? styles.tactive
                   : ''
               }
@@ -56,8 +63,8 @@ export const EditorTabs = () => {
               ) : (
                 <IoCubeOutline className={editorcss.colorv} />
               )}{' '}
-              {`${name}.${value.type}`}{' '}
-              <IoCloseOutline onClick={() => closeTab(value)} />
+              {`${name}`}{' '}
+              <IoCloseOutline onClick={() => closeTab(value.model)} />
             </div>
             {/* <div onClick={() => {value.opened = false; setActive('vert')}}>{`${name}.vert`}  <IoCloseOutline onClick={() => {value.opened = false;}}/></div> */}
           </div>

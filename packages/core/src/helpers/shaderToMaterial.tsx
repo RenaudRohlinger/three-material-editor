@@ -47,7 +47,6 @@ export const getShaderWithObc = (material: any) => {
       const val:any = value
       val.isNativeUniforms = true
     }
-    console.log(ShaderLib[builtinType], material)
   }
   
   // TODO DEBUG UNIFORMS OF CUSTOM MATERIALS SHADER IS NOT SHOWING
@@ -60,7 +59,6 @@ export const getShaderWithObc = (material: any) => {
     );
     dummyShaderLib.uniforms = Object.assign(dummyShaderLib.uniforms, material.uniforms);
   }
-  console.log(dummyShaderLib)
   return dummyShaderLib;
 };
 

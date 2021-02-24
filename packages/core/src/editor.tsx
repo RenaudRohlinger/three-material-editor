@@ -29,7 +29,11 @@ export const checkIfModifications = () => {
   editorState.activeMaterial.isModif = origin !== modif;
 };
 export const updateActiveShader = (value: any, type: string) => {
-  const material: any = editorContext.activeMaterial.ref.material;
+  if (!editorState.activeMaterial.model) {
+    return
+  }
+  const activeMat = editorContext.activeMaterialRef[editorState.activeMaterial.model]
+  const material: any = activeMat.material;
 
   editorContext.monacoRef.editor.setModelMarkers(
     editorContext.editor.getModel(),
@@ -40,7 +44,7 @@ export const updateActiveShader = (value: any, type: string) => {
     if (material.isEffect) {
       material.vertexShader = type === 'vert' ? value : material.vertexShader;
       material.fragmentShader = type === 'frag' ? value : material.fragmentShader;
-      editorContext.activeMaterial.ref.effect.recompile(editorContext.gl)
+      activeMat.effect.recompile(editorContext.gl)
     } else {
       material.editorOnBeforeCompile = (shader: any) => {
         shader.vertexShader = type === 'vert' ? value : material.vertexShader;
@@ -99,7 +103,10 @@ export const MaterialEditor: FC = () => {
 
 const handleEditorValidation = () => {
   const diagnostics: any = editorState.diagnostics;
-  const material: any = editorContext.activeMaterial.ref.material;
+  if (!editorState.activeMaterial.model) {
+    return
+  }
+  const material: any = editorContext.activeMaterialRef[editorState.activeMaterial.model].material;
   if (diagnostics && diagnostics.fragmentShader && !diagnostics.runnable && editorContext.monacoRef) {
     const error =
       diagnostics.fragmentShader.log === ''
@@ -200,10 +207,14 @@ const EditorEdit = () => {
 
   useEffect(() => {
     // at initialization of any new active material set the 2 models
-    if (editorState.activeMaterial && editorContext.activeMaterial.ref && editorContext.monacoRef) {
+    if (editorState.activeMaterial && editorContext.activeMaterialRef && editorContext.monacoRef && editorState.activeMaterial.model) {
       const type = editorState.activeMaterial.type;
-      const material: any = editorContext.activeMaterial.ref.material;
-      const program: any = editorContext.activeMaterial.ref.program;
+      const activeMat = editorContext.activeMaterialRef[editorState.activeMaterial.model]
+      if (!activeMat) {
+        return
+      }
+      const material: any = activeMat.material;
+      const program: any = activeMat.program;
 
       if (isEditorReady && material) {
         const name = getNameForEditorMaterial(material, program)
@@ -233,20 +244,28 @@ const EditorEdit = () => {
   }, [isEditorReady, snapshot.activeMaterial, editorContext.monacoRef]);
 
   const getText = () => {
+    if (!editorState.activeMaterial.model) {
+      return ''
+    }
+    let textContent: string | undefined;
     const type = editorState.activeMaterial.type;
     const model = editorState.activeMaterial.model;
-    const program = editorContext.activeMaterial.ref.program;
-    const material: any = editorContext.activeMaterial.ref.material;
-    let textContent: string | undefined;
-
-    if (type === 'frag') {
-      textContent = replaceShaderChunks(material ? material.fragmentShader : program.fragmentShader);
-    } else if (type === 'vert') {
-      textContent = replaceShaderChunks(material ? material.vertexShader : program.vertexShader);
+    const activeMat = editorContext.activeMaterialRef[editorState.activeMaterial.model];
+    if (activeMat) {
+      const program = activeMat.program;
+      const material: any = activeMat.material;
+  
+      if (type === 'frag') {
+        textContent = replaceShaderChunks(material ? material.fragmentShader : program.fragmentShader);
+      } else if (type === 'vert') {
+        textContent = replaceShaderChunks(material ? material.vertexShader : program.vertexShader);
+      }
     }
+
     if (model === 'urn:obc_result' && editorState.obcMode) {
       const result = generateOBc(textContent)
       if (editorContext.monacoRef.editor.getModel('urn:obc_result')) {
+
         editorContext.monacoRef.editor.getModel('urn:obc_result').setValue(result)
       }
       return result;

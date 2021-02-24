@@ -62,11 +62,7 @@ interface Map {
 
 export const editorContextState: Map = {
   materials: {},
-  activeMaterial: {
-    ref: {
-      
-    }
-  },
+  activeMaterialRef: {},
   programs: [],
   editorWidth: 520,
   editorMinusHeight: 0,

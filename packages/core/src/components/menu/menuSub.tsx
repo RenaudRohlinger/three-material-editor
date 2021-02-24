@@ -1,7 +1,7 @@
 import React, { useState, VFC } from 'react';
 import { getNameForEditorMaterial } from '../../helpers/shaderToMaterial';
 import { editorState } from '../../state';
-import { ref, useProxy } from 'valtio';
+import { useProxy } from 'valtio';
 
 import { IoEyeOutline } from 'react-icons/io5';
 import { IoEyeOffOutline } from 'react-icons/io5';
@@ -40,14 +40,16 @@ export const SubMenu: VFC<SubMenuProps> = ({ program }) => {
 
   const showUniforms = (e: any) => {
     e.stopPropagation();
+
     const value = {
       type: '',
       open: true,
-      ref: ref(program),
       isModif: false,
+      model: `urn:${name}`
     };
+  
     editorState.activeMaterial = value;
-    editorContext.activeMaterial = value;
+    editorContext.activeMaterialRef[value.model] = program;
     
     editorState.showEditor = false;
     editorState.diffMode = false;

@@ -16,21 +16,26 @@ import { editorContextState as editorContext } from '../../state';
 export const BottomAction = () => {
   const snapshot = useProxy(editorState);
   let isShader = false;
-  if (!editorContext.monacoRef) {
+  if (!editorContext.monacoRef || !editorState.activeMaterial.model) {
     return null;
   }
-  if (
-    editorContext.activeMaterial.ref &&
-    editorContext.activeMaterial.ref.material
-  ) {
-    isShader = editorContext.activeMaterial.ref.material.type ===
-      ('ShaderMaterial' || 'RawShaderMaterial');
+  let activeMat = editorContext.activeMaterialRef[editorState.activeMaterial.model]
+  if ( activeMat && activeMat.material) {
+    isShader = activeMat.material.type === ('ShaderMaterial' || 'RawShaderMaterial');
   }
-  const material: any = editorContext.activeMaterial.ref.material;
+
+  if (editorState.obcMode && editorState.activeMaterial.cachedModel) {
+    activeMat = editorContext.activeMaterialRef[editorState.activeMaterial.cachedModel]
+  }
+  
+  if (!activeMat) {
+    return null
+  }
+  const material: any = activeMat.material;
 
   const cancelChange = () => {
-    const type = editorContext.activeMaterial.type;
-    const program: any = editorContext.activeMaterial.ref.program;
+    const type = editorState.activeMaterial.type;
+    const program: any = activeMat.program;
     const name = getNameForEditorMaterial(material, program)
 
     const oModel = editorContext.monacoRef.editor.getModel(
@@ -46,25 +51,21 @@ export const BottomAction = () => {
   };
 
   const openObcMode = () => {
-    editorContext.activeMaterial.cachedModel = editorContext.activeMaterial.model + '';
+    editorState.activeMaterial.cachedModel = editorState.activeMaterial.model + '';
     setTimeout(() => {
       editorState.activeMaterial.model = 'urn:obc_result';
-      editorContext.activeMaterial.model = 'urn:obc_result';
       editorState.showEditor = true;
       editorState.diffMode = false;
       editorState.obcMode = true;
     }, 0);
   };
   const closeObcMode = () => {
-    editorState.activeMaterial.model = editorContext.activeMaterial.cachedModel;
-    editorContext.activeMaterial.model =
-      editorContext.activeMaterial.cachedModel;
-    editorContext.activeMaterial.cachedModel = null;
+    editorState.activeMaterial.model = editorState.activeMaterial.cachedModel;
+    editorState.activeMaterial.cachedModel = null;
     editorState.diffMode = false;
     editorState.obcMode = false;
     editorState.triggerUpdate++;
   };
-
   return snapshot.activeMaterial && snapshot.activeMaterial.isModif && snapshot.showEditor && material ? (
     <div key={snapshot.triggerUpdate} className={styles.menub}>
       {snapshot.obcMode && (

@@ -102,12 +102,12 @@ const App = () => {
 
       <React.Suspense fallback={null}>
         <BoxShader2 position={[2, 1, 0]} rotation={[.35,.35,.35]} />
-        {/* <Sphere
+        <Sphere
           args={[1, 32, 32]}
         >
           <MeshDistortMaterial factor={2} color={'black'} />
-        </Sphere> */}
-        {/* <Environment preset={'studio'} /> */}
+        </Sphere>
+        <Environment preset={'studio'} />
         <EffectComposer ref={useEditorComposer()}>
           {/* <Noise opacity={0.4} /> */}
           <Vignette eskil={false} offset={0.1} darkness={1.1} />
@@ -121,10 +121,10 @@ const App = () => {
       {/* <BoxNormal position={[2, 0, 0]} rotation={[.35,.35,.35]} /> */}
       {/* <BoxShader position={[0, 1, 0]} rotation={[.35,.35,.35]} /> */}
        {/* <BoxShader2 position={[2, 1, 0]} rotation={[.35,.35,.35]} /> */}
-       {/* <Text fontSize={3} letterSpacing={-0.06}>
+       <Text fontSize={3} letterSpacing={-0.06}>
           drei
           <MeshDistortMaterial factor={2} color={'black'} />
-        </Text> */}
+        </Text>
     </Canvas>
   );
 }

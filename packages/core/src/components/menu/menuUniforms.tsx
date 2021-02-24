@@ -20,11 +20,15 @@ export const UniformsMenu: VFC<UniformsMenuProps> = () => {
     return null;
   }
 
-  if (!editorContext.activeMaterial.ref) {
+  if (!editorContext.activeMaterialRef || !editorState.activeMaterial.model) {
     return null;
   }
+  const activeMat = editorContext.activeMaterialRef[editorState.activeMaterial.model]
 
-  const material: any = editorContext.activeMaterial.ref.material;
+  if (!activeMat) {
+    return null
+  }
+  const material: any = activeMat.material;
 
 
   if (!editorState.showUniforms || !material.uniforms) {

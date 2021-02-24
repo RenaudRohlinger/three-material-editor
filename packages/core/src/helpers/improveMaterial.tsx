@@ -6,7 +6,6 @@ import { editorContextState } from '../state';
 
 export const addShaderDebugMaterial = (material: any) => {
   let newMaterial = material;
-  console.log(material)
   const shader = getShaderWithObc(newMaterial)
   newMaterial = Object.assign(newMaterial, shader);
 

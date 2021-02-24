@@ -1,7 +1,7 @@
 import React, { VFC } from 'react';
 import { getNameForEditorMaterial } from '../../helpers/shaderToMaterial';
 import { editorState } from '../../state';
-import { ref, useProxy } from 'valtio';
+import { useProxy } from 'valtio';
 import { editorContext } from '../../.';
 import editorcss from '../../editor.module.css';
 import { checkIfModifications } from '../../editor';
@@ -53,13 +53,13 @@ export const LiMenu: VFC<LiMenuProps> = ({ type, program }) => {
           type,
           open: true,
           cachedModel: `urn:${name}.${type}`,
-          ref: ref(program),
           isModif: false,
-          model: `urn:${name}.${type}`,
+          model: `urn:${name}.${type}`
         };
-        editorState.tabs[`urn:${name}.${type}`] = value;
         editorState.activeMaterial = value;
-        editorContext.activeMaterial = value;
+        editorContext.activeMaterialRef[value.model] = program;
+        editorState.tabs[`urn:${name}.${type}`] = value;
+
         editorState.showUniforms = true
 
         editorState.showEditor = true;
