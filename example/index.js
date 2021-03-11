@@ -121,10 +121,10 @@ const App = () => {
       {/* <BoxNormal position={[2, 0, 0]} rotation={[.35,.35,.35]} /> */}
       {/* <BoxShader position={[0, 1, 0]} rotation={[.35,.35,.35]} /> */}
        {/* <BoxShader2 position={[2, 1, 0]} rotation={[.35,.35,.35]} /> */}
-       <Text fontSize={3} letterSpacing={-0.06}>
+       {/* <Text fontSize={3} letterSpacing={-0.06}>
           drei
           <MeshDistortMaterial factor={2} color={'black'} />
-        </Text>
+        </Text> */}
     </Canvas>
   );
 }

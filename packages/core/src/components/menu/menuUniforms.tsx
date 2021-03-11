@@ -2,7 +2,7 @@
 
 import React, { useEffect, VFC } from 'react';
 import { editorContextState as editorContext, editorState } from '../../state';
-import { Leva, usePanel, LevaPanel } from "leva";
+import { Leva, LevaPanel, useControls, useCreateStore } from "leva";
 import { useProxy } from 'valtio';
 import * as THREE from 'three'
 
@@ -103,8 +103,8 @@ export const UniformsMenu: VFC<UniformsMenuProps> = () => {
 
   return (
     <div>
-      <Leva detached={true} hideTitleBar oneLineLabels={false} />
-      <LevaPanel store={store} oneLineLabels={false} />
+      <Leva fill={true} flat={true} hideTitleBar oneLineLabels={false} />
+      <LevaPanel fill={true} flat={true}  hideTitleBar={true} store={store} oneLineLabels={false} />
       {/* <LevaPanel store={store} oneLineLabels={false} /> */}
       <div key={snapshot.triggerUpdate}>
         <UniformComp filteredItems={filteredItems} setSelection={setSelection} uniforms={material.uniforms} store={store} />
@@ -145,7 +145,9 @@ const loadTexture = (uniforms: any, materialUniform: any, key: string, value: an
  
 }
 const UniformComp = ({filteredItems, uniforms, setSelection} :any) => {
-  const [elements, store]: any = usePanel(filteredItems)
+  const store = useCreateStore()
+  const [elements] = useControls(() => (filteredItems), { store })
+
 
   useEffect(() => {
     for (const [key, value] of Object.entries(elements)) {
