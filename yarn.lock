@@ -2365,17 +2365,17 @@
     webpack "^4.44.1"
     webpack-bundle-analyzer "^3.9.0"
 
-"@stitches/core@^0.1.0-canary.17":
-  version "0.1.0-canary.17"
-  resolved "https://registry.yarnpkg.com/@stitches/core/-/core-0.1.0-canary.17.tgz#9c6514668196a7b92d1dfdfbef756464b4a7dd66"
-  integrity sha512-KWNdHgk8hflXCLLZTnIVqwY7jGHQtGF0yQMrOBGrleOF/rU3t1bSPIjKpW1YH9iRzVFP0p6X9KVlEhh5qCbxJg==
+"@stitches/core@^0.1.0-canary.20":
+  version "0.1.0-canary.20"
+  resolved "https://registry.yarnpkg.com/@stitches/core/-/core-0.1.0-canary.20.tgz#59974393d5e887adda94dc82ca7bb6574bc59cbc"
+  integrity sha512-aWeUlFzCGl1hOa6hb3+OLuA4Z06wTjBjlp9yYHIA9JfN3E/BbjAYJ8i8dtD72t8N/QZcf7vAKpdMw8CrYffEIw==
 
-"@stitches/react@^0.1.0-canary.15":
-  version "0.1.0-canary.17"
-  resolved "https://registry.yarnpkg.com/@stitches/react/-/react-0.1.0-canary.17.tgz#051a191709ba7acf9381b1ad50bb53c15535037d"
-  integrity sha512-KkfbUvLQ5iVG54fZdBd89r4Hr5gCcZ6xcgrlDs0KRsMQ06OU6OCFcOItrpx0v5o+EutIlvSy501Z/oBsaC/Qyg==
+"@stitches/react@^0.1.0-canary.20":
+  version "0.1.0-canary.20"
+  resolved "https://registry.yarnpkg.com/@stitches/react/-/react-0.1.0-canary.20.tgz#e946a4d8cc6dc6e3ed146d15eda4ba1657578fb8"
+  integrity sha512-0TzcRBZYUYQgU1Tc9P3eA6nmviSlNIVZ5cu/HpTkp8ETAczebiCngTyabpiM3SvkIsaHjyJuEwTkBJbndF+sPQ==
   dependencies:
-    "@stitches/core" "^0.1.0-canary.17"
+    "@stitches/core" "^0.1.0-canary.20"
 
 "@types/babel__core@^7.1.7":
   version "7.1.12"
@@ -7637,14 +7637,14 @@ lerna@^3.15.0:
     import-local "^2.0.0"
     npmlog "^4.1.2"
 
-leva@^0.5.3:
-  version "0.5.3"
-  resolved "https://registry.yarnpkg.com/leva/-/leva-0.5.3.tgz#f4d8adcaa4709fb3ae936d3ddb32f47724793b78"
-  integrity sha512-+qEe2RoWhDiFJYIuFHfDC2ohyQWN/HQrprK7E2RbErQRhi2zwCURUQ3fEZsd2Tqi9ZVZwLNi2qGli1JVrkiuwA==
+leva@^0.6.3:
+  version "0.6.3"
+  resolved "https://registry.yarnpkg.com/leva/-/leva-0.6.3.tgz#863850819861c7d85c997cd239ea99c64c199e3f"
+  integrity sha512-OdHyyNFC6OdEMhRHGM6G1H4eU7FQGeS8Oyoa7hZAzVgWt497FD84lb9/Pal3u7lC2il0Xy1Zn/KrlOK+h63QgA==
   dependencies:
     "@radix-ui/react-portal" "^0.0.6"
     "@radix-ui/react-tooltip" "^0.0.9"
-    "@stitches/react" "^0.1.0-canary.15"
+    "@stitches/react" "^0.1.0-canary.20"
     "@welldone-software/why-did-you-render" "^6.1.0"
     clipboard-polyfill "^3.0.2"
     dequal "^2.0.2"

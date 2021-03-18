@@ -38,7 +38,7 @@
   "dependencies": {
     "@monaco-editor/react": "^4.0.9",
     "autoprefixer": "^10.2.3",
-    "leva": "^0.5.3",
+    "leva": "^0.6.3",
     "monaco-editor": "^0.21.3",
     "react-icons": "^4.1.0",
     "react-use-gesture": "^9.0.0",
